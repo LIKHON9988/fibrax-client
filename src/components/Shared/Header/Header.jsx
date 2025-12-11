@@ -15,6 +15,7 @@ const Header = () => {
         fixed top-0 left-0 right-0 z-50"
       >
         <Link to="/" className="flex items-center">
+          <span className="text-white">🡸</span>
           <img
             src={logo}
             alt="logo"

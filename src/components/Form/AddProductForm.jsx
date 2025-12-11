@@ -1,17 +1,96 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { imageUpload } from "../../utils";
+import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import LoadingSpinner from "../Shared/LoadingSpinner";
+import ErrorPage from "../../pages/ErrorPage";
+import toast from "react-hot-toast";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const AddProductForm = () => {
-  const [previewImages, setPreviewImages] = useState([]);
+  const { user } = useAuth();
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setPreviewImages(previews);
+  const {
+    isPending,
+    isError,
+    mutateAsync,
+    reset: mutationReset,
+  } = useMutation({
+    mutationFn: async (payload) =>
+      await axios.post(`${import.meta.env.VITE_API_URL}/products`, payload),
+
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success("Product added succesfully");
+      mutationReset();
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+    onMutate: (payload) => {
+      console.log("i will post this data---->", payload);
+    },
+
+    retry: 3,
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    const {
+      name,
+      category,
+      description,
+      price,
+      quantity,
+      moq,
+      payment,
+      image,
+    } = data;
+
+    const imageFile = image[0];
+
+    try {
+      const imageURL = await imageUpload(imageFile);
+      const productData = {
+        image: imageURL,
+        name,
+        description,
+        price: Number(price),
+        category,
+        quantity: Number(quantity),
+        moq: Number(moq),
+        payment,
+        maneger: {
+          iamge: user?.photoURL,
+          name: user?.displayName,
+          email: user?.email,
+        },
+      };
+
+      await mutateAsync(productData);
+      reset();
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  if (isPending) return <LoadingSpinner></LoadingSpinner>;
+
+  if (isError) return <ErrorPage></ErrorPage>;
 
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col items-center py-10 text-white">
-      <form className="w-full max-w-5xl p-10 rounded-2xl shadow-xl bg-white/10 backdrop-blur-xl border border-red-400/40">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-5xl p-10 rounded-2xl shadow-xl bg-white/10 backdrop-blur-xl border border-red-400/40"
+      >
         <h2 className="text-3xl font-bold text-red-300 mb-10 text-center drop-shadow">
           Add New Product
         </h2>
@@ -26,20 +105,23 @@ const AddProductForm = () => {
               </label>
               <input
                 className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
-                name="name"
                 type="text"
                 placeholder="Enter product name"
-                required
+                {...register("name", { required: true })}
               />
+              {errors.name && (
+                <span className="text-red-500 text-sm">
+                  Product name is required
+                </span>
+              )}
             </div>
 
             {/* Category */}
             <div className="space-y-1 text-sm">
               <label className="block text-red-200 font-medium">Category</label>
               <select
-                required
-                name="category"
                 className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
+                {...register("category", { required: true })}
               >
                 <option value="Shirt" className="text-black">
                   Shirt
@@ -54,6 +136,11 @@ const AddProductForm = () => {
                   Accessories
                 </option>
               </select>
+              {errors.category && (
+                <span className="text-red-500 text-sm">
+                  Category is required
+                </span>
+              )}
             </div>
 
             {/* Description */}
@@ -62,24 +149,15 @@ const AddProductForm = () => {
                 Product Description
               </label>
               <textarea
-                name="description"
                 placeholder="Write product description..."
-                required
                 className="block rounded-md w-full h-32 px-4 py-3 border border-red-300/40 bg-white/20 text-white focus:outline-red-300"
+                {...register("description", { required: true })}
               ></textarea>
-            </div>
-
-            {/* Video */}
-            <div className="space-y-1 text-sm">
-              <label className="block text-red-200 font-medium">
-                Demo Video Link (Optional)
-              </label>
-              <input
-                name="video"
-                type="url"
-                placeholder="https://example.com/video"
-                className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
-              />
+              {errors.description && (
+                <span className="text-red-500 text-sm">
+                  Description is required
+                </span>
+              )}
             </div>
           </div>
 
@@ -91,12 +169,16 @@ const AddProductForm = () => {
               <div className="space-y-1 text-sm">
                 <label className="block text-red-200 font-medium">Price</label>
                 <input
-                  name="price"
                   type="number"
                   placeholder="Price"
-                  required
                   className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
+                  {...register("price", { required: true })}
                 />
+                {errors.price && (
+                  <span className="text-red-500 text-sm">
+                    Price is required
+                  </span>
+                )}
               </div>
 
               {/* Quantity */}
@@ -105,24 +187,30 @@ const AddProductForm = () => {
                   Available Qty
                 </label>
                 <input
-                  name="quantity"
                   type="number"
                   placeholder="Qty"
-                  required
                   className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
+                  {...register("quantity", { required: true })}
                 />
+                {errors.quantity && (
+                  <span className="text-red-500 text-sm">
+                    Quantity is required
+                  </span>
+                )}
               </div>
 
               {/* MOQ */}
               <div className="space-y-1 text-sm">
                 <label className="block text-red-200 font-medium">MOQ</label>
                 <input
-                  name="moq"
                   type="number"
                   placeholder="MOQ"
-                  required
                   className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
+                  {...register("moq", { required: true })}
                 />
+                {errors.moq && (
+                  <span className="text-red-500 text-sm">MOQ is required</span>
+                )}
               </div>
             </div>
 
@@ -132,9 +220,8 @@ const AddProductForm = () => {
                 Payment Option
               </label>
               <select
-                required
-                name="payment"
                 className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
+                {...register("payment", { required: true })}
               >
                 <option value="Cash on Delivery" className="text-black">
                   Cash on Delivery
@@ -143,19 +230,6 @@ const AddProductForm = () => {
                   PayFirst
                 </option>
               </select>
-            </div>
-
-            {/* Home Page Toggle */}
-            <div className="flex items-center gap-2 mt-2">
-              <input
-                type="checkbox"
-                id="showHome"
-                name="showHome"
-                className="w-4 h-4"
-              />
-              <label htmlFor="showHome" className="text-red-200 font-medium">
-                Show on Home Page
-              </label>
             </div>
 
             {/* Image Upload */}
@@ -169,39 +243,42 @@ const AddProductForm = () => {
                   type="file"
                   multiple
                   accept="image/*"
-                  onChange={handleImageChange}
                   id="images"
                   className="hidden"
+                  {...register("image", { required: true })}
                 />
 
                 <label
                   htmlFor="images"
-                  className="cursor-pointer bg-red-600/80 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 transition"
+                  className="cursor-pointer bg-purple-900 text-white px-4 py-2 rounded-md shadow hover:bg-purple-950 transition"
                 >
                   Select Images
                 </label>
               </div>
-
-              {/* Preview */}
-              {previewImages.length > 0 && (
-                <div className="grid grid-cols-3 gap-3 mt-4">
-                  {previewImages.map((img, index) => (
-                    <img
-                      key={index}
-                      src={img}
-                      className="w-full h-24 rounded-md object-cover shadow-md border border-red-300/40"
-                    />
-                  ))}
-                </div>
+              {errors.image && (
+                <span className="text-red-500 text-sm">
+                  Product image is required
+                </span>
               )}
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full cursor-pointer p-3 mt-6 font-medium text-white transition rounded-lg shadow-md bg-red-600/80 hover:bg-red-600"
+              className=" mt-4
+                w-full py-3 text-center rounded-xl 
+                bg-gradient-to-r from-purple-600/40 to-pink-600/40
+                border border-purple-300/30 
+                text-white font-semibold backdrop-blur-xl 
+                hover:from-purple-600/60 hover:to-pink-600/60
+                hover:shadow-lg hover:shadow-purple-500/30
+                transition-all duration-300"
             >
-              Create Product
+              {isPending ? (
+                <TbFidgetSpinner className="animate-spin m-auto" />
+              ) : (
+                "Creat Product"
+              )}
             </button>
           </div>
         </div>

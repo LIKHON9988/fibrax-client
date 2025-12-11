@@ -1,7 +1,7 @@
 import Card from "./Card";
 import Container from "../Shared/Container";
 
-const Plants = () => {
+const Products = () => {
   return (
     <Container>
       <div className="pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3    gap-4 mb-10 ">
@@ -22,4 +22,4 @@ const Plants = () => {
   );
 };
 
-export default Plants;
+export default Products;
