@@ -111,7 +111,11 @@ const ProductDetailsCard = () => {
         </div>
       </div>
 
-      <PurchaseModal closeModal={closeModal} isOpen={isOpen} />
+      <PurchaseModal
+        product={product}
+        closeModal={closeModal}
+        isOpen={isOpen}
+      />
     </Container>
   );
 };

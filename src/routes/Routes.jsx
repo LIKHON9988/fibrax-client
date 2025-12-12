@@ -19,6 +19,7 @@ import AboutUs from "../pages/AboutUs/AboutUs";
 import Contuct from "../pages/Contuct/Contuct";
 import AddProduct from "../pages/Dashboard/Maneger/AddProduct";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
+import PaymentSuccess from "../pages/payment/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: "/product/:id",
         element: <ProductDetails></ProductDetails>,
+      },
+      {
+        path: "/paymentSuccessful",
+        element: <PaymentSuccess></PaymentSuccess>,
       },
       {
         path: "/allProducts",
