@@ -1,80 +1,67 @@
 import { Link } from "react-router";
 
-const Card = () => {
+const Card = ({ product }) => {
+  const { _id, category, image, name, quantity, price } = product || {};
+
   return (
-    <div className="col-span-1">
+    <div className="col-span-1 w-full">
       <div
         className="
-          relative 
-          p-6 
-          rounded-3xl 
-          overflow-hidden 
-          bg-white/10 
-          backdrop-blur-2xl 
+          relative
+          bg-white/10
+          backdrop-blur-xl
+          rounded-3xl
           border border-white/20
-          group 
-          shadow-2xl 
-          transition 
-          hover:scale-[1.02]
+          shadow-lg
+          overflow-hidden
+          transition-all duration-300
           hover:shadow-purple-500/40
+          hover:-translate-y-1
+          p-4
         "
       >
-        {/* Background Glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 blur-3xl opacity-40"></div>
-
-        {/* CONTENT WRAPPER */}
-        <div className="relative flex flex-col md:flex-row gap-6">
+        {/* WRAPPER — STACK ON MOBILE, SIDE-BY-SIDE ON MD+ */}
+        <div className="flex flex-col md:flex-row gap-5 items-center md:items-stretch">
           {/* LEFT — IMAGE */}
-          <div
-            className="
-              md:w-1/2 
-              w-full 
-              rounded-2xl 
-              overflow-hidden 
-              shadow-xl
-            "
-          >
+          <div className="w-full md:w-1/2 h-48 sm:h-56 md:h-auto md:min-h-[180px] rounded-2xl overflow-hidden shadow-md flex-shrink-0">
             <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/016/283/763/small/cricket-bat-cartoon-style-vector.jpg"
-              alt="Product"
-              className="
-                w-full h-full object-cover 
-                transition-all duration-500 
-                group-hover:scale-110 
-              "
+              src={image}
+              alt={name}
+              className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
             />
           </div>
 
-          {/* RIGHT — TEXT CONTENT */}
-          <div className="md:w-1/2 w-full flex flex-col justify-between text-white space-y-4">
+          {/* RIGHT — TEXT */}
+          <div className="w-full md:w-1/2 flex flex-col justify-between text-white space-y-3">
             <div>
-              <h2 className="text-3xl font-bold tracking-wide drop-shadow-sm">
-                bat
+              <h2 className="text-xl md:text-2xl font-bold line-clamp-2">
+                {name}
               </h2>
 
-              <p className="text-sm opacity-80 mt-2">
-                <span className="font-semibold">Category:</span> Outdoor
+              <p className="text-sm opacity-80 mt-1">
+                <span className="font-semibold">Category:</span> {category}
               </p>
 
               <p className="text-sm opacity-80">
-                <span className="font-semibold">Available:</span> 10 pcs
+                <span className="font-semibold">Available:</span> {quantity}
               </p>
 
-              <p className="text-2xl font-semibold text-purple-300 mt-4">$15</p>
+              <p className="text-2xl font-semibold text-purple-300 mt-3">
+                {price} Tk.
+              </p>
             </div>
 
             {/* BUTTON */}
             <Link
-              to={`/product/1`}
+              to={`/product/${_id}`}
               className="
-                mt-4
-                w-full py-3 text-center rounded-xl 
+                w-full py-3 text-center rounded-xl
                 bg-gradient-to-r from-purple-600/40 to-pink-600/40
-                border border-purple-300/30 
-                text-white font-semibold backdrop-blur-xl 
+                border border-purple-300/30
+                text-white font-semibold backdrop-blur-xl
                 hover:from-purple-600/60 hover:to-pink-600/60
                 hover:shadow-lg hover:shadow-purple-500/30
-                transition-all duration-300
+                transition-all
               "
             >
               View Details

@@ -1,23 +1,30 @@
 import Card from "./Card";
 import Container from "../Shared/Container";
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import LoadingSpinner from "../Shared/LoadingSpinner";
+
 const Products = () => {
+  const { data: products = {}, isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const result = await axios(`${import.meta.env.VITE_API_URL}/products`);
+      return result.data;
+    },
+  });
+
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
+
   return (
     <Container>
-      <div className="pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3    gap-4 mb-10 ">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-      </div>
+      {products && products.length > 0 ? (
+        <div className="pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3    gap-4 mb-10 ">
+          {products.map((product) => (
+            <Card key={product._id} product={product} />
+          ))}
+        </div>
+      ) : null}
     </Container>
   );
 };

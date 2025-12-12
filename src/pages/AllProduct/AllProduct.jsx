@@ -146,8 +146,19 @@ const AllProduct = () => {
                   </span>
                 </div>
 
-                <Link to={`/product/${p?._id ?? p?.id}`}>
-                  <Button label="View" />
+                <Link
+                  to={`/product/${p?._id}`}
+                  className="
+                w-full py-3 text-center rounded-xl
+                bg-gradient-to-r from-purple-600/40 to-pink-600/40
+                border border-purple-300/30
+                text-white font-semibold backdrop-blur-xl
+                hover:from-purple-600/60 hover:to-pink-600/60
+                hover:shadow-lg hover:shadow-purple-500/30
+                transition-all
+              "
+                >
+                  View Details
                 </Link>
               </div>
             </div>
