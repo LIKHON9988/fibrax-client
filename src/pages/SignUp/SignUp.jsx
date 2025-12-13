@@ -124,8 +124,8 @@ const SignUp = () => {
                 <option value="buyer" className="text-black">
                   Buyer
                 </option>
-                <option value="manager" className="text-black">
-                  Manager
+                <option value="Seller" className="text-black">
+                  Seller
                 </option>
               </select>
               {errors.role && (

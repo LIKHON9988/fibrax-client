@@ -47,7 +47,7 @@ const Card = ({ product }) => {
               </p>
 
               <p className="text-2xl font-semibold text-purple-300 mt-3">
-                {price} Tk.
+                ${price}
               </p>
             </div>
 

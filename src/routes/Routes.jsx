@@ -10,9 +10,9 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import Profile from "../pages/Dashboard/Common/Profile";
 import Statistics from "../pages/Dashboard/Common/Statistics";
 import MainLayout from "../layouts/MainLayout";
-import MyInventory from "../pages/Dashboard/Maneger/MyInventory";
+import ManageProducts from "../pages/Dashboard/Maneger/ManageProducts";
 import ManageOrders from "../pages/Dashboard/Maneger/ManageOrders";
-import MyOrders from "../pages/Dashboard/Customer/MyOrders";
+
 import { createBrowserRouter } from "react-router";
 import AllProduct from "../pages/AllProduct/AllProduct";
 import AboutUs from "../pages/AboutUs/AboutUs";
@@ -20,6 +20,9 @@ import Contuct from "../pages/Contuct/Contuct";
 import AddProduct from "../pages/Dashboard/Maneger/AddProduct";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import PaymentSuccess from "../pages/payment/PaymentSuccess";
+import AdminAllProducts from "../pages/Dashboard/Admin/AdminAllProducts";
+import AllOrders from "../pages/Dashboard/Admin/AllOrders";
+import MyOrders from "../pages/Dashboard/Customer/MyOrders";
 
 export const router = createBrowserRouter([
   {
@@ -81,10 +84,19 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "my-inventory",
+        path: "all-products",
         element: (
           <PrivateRoute>
-            <MyInventory />
+            <AdminAllProducts></AdminAllProducts>
+          </PrivateRoute>
+        ),
+      },
+
+      {
+        path: "manage-products",
+        element: (
+          <PrivateRoute>
+            <ManageProducts></ManageProducts>
           </PrivateRoute>
         ),
       },
@@ -105,10 +117,18 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "All-orders",
+        element: (
+          <PrivateRoute>
+            <AllOrders />
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "my-orders",
         element: (
           <PrivateRoute>
-            <MyOrders />
+            <MyOrders></MyOrders>
           </PrivateRoute>
         ),
       },

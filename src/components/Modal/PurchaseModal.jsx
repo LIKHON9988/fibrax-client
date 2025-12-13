@@ -5,6 +5,7 @@ import axios from "axios";
 const PurchaseModal = ({ closeModal, isOpen, product }) => {
   const { user } = useAuth();
   const {
+    _id,
     image,
     price,
     category,
@@ -18,6 +19,7 @@ const PurchaseModal = ({ closeModal, isOpen, product }) => {
 
   const handlePayment = async () => {
     const paymentInfo = {
+      productId: _id,
       image,
       price,
       category,
@@ -34,12 +36,14 @@ const PurchaseModal = ({ closeModal, isOpen, product }) => {
       },
     };
 
-    const result = await axios.post(
+    const { data } = await axios.post(
       `${import.meta.env.VITE_API_URL}/create-checkout-session`,
       paymentInfo
     );
 
-    console.log(result);
+    window.location.href = data.url;
+
+    console.log(data.url);
   };
 
   return (

@@ -1,4 +1,4 @@
-import SellerOrderDataRow from "../../../components/Dashboard/TableRows/SellerOrderDataRow";
+import PlantDataRow from "../../../components/Dashboard/TableRows/PlantDataRow";
 
 const ManageOrders = () => {
   return (
@@ -14,13 +14,19 @@ const ManageOrders = () => {
                       scope="col"
                       className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                     >
+                      Image
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    >
                       Name
                     </th>
                     <th
                       scope="col"
                       className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                     >
-                      Customer
+                      Category
                     </th>
                     <th
                       scope="col"
@@ -34,29 +40,23 @@ const ManageOrders = () => {
                     >
                       Quantity
                     </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                    >
-                      Address
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                    >
-                      Status
-                    </th>
 
                     <th
                       scope="col"
                       className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                     >
-                      Action
+                      Delete
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                    >
+                      Update
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <SellerOrderDataRow />
+                  <PlantDataRow />
                 </tbody>
               </table>
             </div>

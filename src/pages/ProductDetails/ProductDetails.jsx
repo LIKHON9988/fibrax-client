@@ -71,7 +71,7 @@ const ProductDetailsCard = () => {
               </div>
             </div>
 
-            {/* SELLER INFO */}
+            {/* Seller INFO */}
             <div className="flex items-center gap-3 p-3 bg-white/10 rounded-xl border border-purple-300/20 shadow">
               <img
                 src={maneger?.iamge || maneger?.image}
@@ -94,9 +94,7 @@ const ProductDetailsCard = () => {
 
             {/* PRICE */}
             <div className="mt-4">
-              <p className="text-3xl font-bold text-purple-200">
-                {price} <span className="text-lg">Tk.</span>
-              </p>
+              <p className="text-3xl font-bold text-purple-200">${price}</p>
             </div>
 
             {/* ORDER BUTTON */}
