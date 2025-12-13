@@ -1,29 +1,33 @@
 import React from "react";
 import { Link } from "react-router";
-
-// Example dummy orders data
-const orders = [
-  {
-    id: "ORD123456",
-    product: "Classic Denim Pant",
-    quantity: 2,
-    status: "Pending",
-  },
-  {
-    id: "ORD123457",
-    product: "Modern Shirt",
-    quantity: 1,
-    status: "Approved",
-  },
-  {
-    id: "ORD123458",
-    product: "Leather Jacket",
-    quantity: 1,
-    status: "Rejected",
-  },
-];
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import ErrorPage from "../../ErrorPage";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../hooks/useAuth";
 
 const MyOrders = () => {
+  const { user } = useAuth();
+  const {
+    data: orders = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["orders", user?.email],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/my-orders/${user?.email}`
+      );
+      return res.data;
+    },
+    staleTime: 60 * 1000,
+  });
+
+  console.log(orders);
+
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorPage />;
+
   return (
     <div className="min-h-screen  backdrop-blur-sm px-2 py-10">
       <h1 className="text-4xl text-purple-200 font-bold text-center mb-10">
@@ -61,9 +65,9 @@ const MyOrders = () => {
             {orders.map((order) => (
               <tr key={order.id} className="hover:bg-purple-500/10 transition">
                 <td className="px-6 py-4 font-mono text-purple-200">
-                  {order.id}
+                  {order.productId}
                 </td>
-                <td className="px-6 py-4">{order.product}</td>
+                <td className="px-6 py-4">{order.name}</td>
                 <td className="px-6 py-4 font-semibold">{order.quantity}</td>
 
                 {/* STATUS BADGE */}
