@@ -1,100 +1,164 @@
 const UpdatePlantForm = () => {
   return (
-    <div className='w-full flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
-      <form>
-        <div className='grid grid-cols-1 gap-10'>
-          <div className='space-y-6'>
+    <div className="w-full max-w-md mx-auto flex flex-col justify-center items-center rounded-xl bg-white/5 backdrop-blur-2xl border border-purple-300/20 p-4">
+      <form className="w-full">
+        <div className="grid grid-cols-1 gap-6">
+          <div className="space-y-4">
             {/* Name */}
-            <div className='space-y-1 text-sm'>
-              <label htmlFor='name' className='block text-gray-600'>
+            <div className="space-y-1 text-sm">
+              <label htmlFor="name" className="block text-purple-200">
                 Name
               </label>
               <input
-                className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                name='name'
-                id='name'
-                type='text'
-                placeholder='Plant Name'
+                className="
+                  w-full px-3 py-2
+                  text-gray-200
+                  bg-white/10
+                  border border-purple-300/20
+                  rounded-md
+                  focus:outline-none
+                  focus:ring-2 focus:ring-purple-400/40
+                "
+                name="name"
+                id="name"
+                type="text"
+                placeholder="Plant Name"
                 required
               />
             </div>
+
             {/* Category */}
-            <div className='space-y-1 text-sm'>
-              <label htmlFor='category' className='block text-gray-600 '>
+            <div className="space-y-1 text-sm">
+              <label htmlFor="category" className="block text-purple-200">
                 Category
               </label>
               <select
                 required
-                className='w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                name='category'
+                className="
+                  w-full px-3 py-2
+                  bg-white/10
+                  text-gray-200
+                  border border-purple-300/20
+                  rounded-md
+                  focus:outline-none
+                  focus:ring-2 focus:ring-purple-400/40
+                "
+                name="category"
               >
-                <option value='Indoor'>Indoor</option>
-                <option value='Outdoor'>Outdoor</option>
-                <option value='Succulent'>Succulent</option>
-                <option value='Flowering'>Flowering</option>
+                <option className="bg-gray-900" value="Indoor">
+                  Indoor
+                </option>
+                <option className="bg-gray-900" value="Outdoor">
+                  Outdoor
+                </option>
+                <option className="bg-gray-900" value="Succulent">
+                  Succulent
+                </option>
+                <option className="bg-gray-900" value="Flowering">
+                  Flowering
+                </option>
               </select>
             </div>
+
             {/* Description */}
-            <div className='space-y-1 text-sm'>
-              <label htmlFor='description' className='block text-gray-600'>
+            <div className="space-y-1 text-sm">
+              <label htmlFor="description" className="block text-purple-200">
                 Description
               </label>
-
               <textarea
-                id='description'
-                placeholder='Write plant description here...'
-                className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-lime-300 bg-white focus:outline-lime-500 '
-                name='description'
+                id="description"
+                placeholder="Write plant description here..."
+                className="
+                  block w-full h-24 px-3 py-2
+                  text-gray-200
+                  bg-white/10
+                  border border-purple-300/20
+                  rounded-md
+                  focus:outline-none
+                  focus:ring-2 focus:ring-purple-400/40
+                "
+                name="description"
               ></textarea>
             </div>
           </div>
-          <div className='space-y-6 flex flex-col'>
+
+          <div className="space-y-4 flex flex-col">
             {/* Price & Quantity */}
-            <div className='flex justify-between gap-2'>
+            <div className="flex gap-3">
               {/* Price */}
-              <div className='space-y-1 text-sm'>
-                <label htmlFor='price' className='block text-gray-600 '>
+              <div className="space-y-1 text-sm w-full">
+                <label htmlFor="price" className="block text-purple-200">
                   Price
                 </label>
                 <input
-                  className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                  name='price'
-                  id='price'
-                  type='number'
-                  placeholder='Price per unit'
+                  className="
+                    w-full px-3 py-2
+                    text-gray-200
+                    bg-white/10
+                    border border-purple-300/20
+                    rounded-md
+                    focus:outline-none
+                    focus:ring-2 focus:ring-purple-400/40
+                  "
+                  name="price"
+                  id="price"
+                  type="number"
+                  placeholder="Price"
                   required
                 />
               </div>
 
               {/* Quantity */}
-              <div className='space-y-1 text-sm'>
-                <label htmlFor='quantity' className='block text-gray-600'>
+              <div className="space-y-1 text-sm w-full">
+                <label htmlFor="quantity" className="block text-purple-200">
                   Quantity
                 </label>
                 <input
-                  className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                  name='quantity'
-                  id='quantity'
-                  type='number'
-                  placeholder='Available quantity'
+                  className="
+                    w-full px-3 py-2
+                    text-gray-200
+                    bg-white/10
+                    border border-purple-300/20
+                    rounded-md
+                    focus:outline-none
+                    focus:ring-2 focus:ring-purple-400/40
+                  "
+                  name="quantity"
+                  id="quantity"
+                  type="number"
+                  placeholder="Qty"
                   required
                 />
               </div>
             </div>
+
             {/* Image */}
-            <div className=' p-4  w-full  m-auto rounded-lg grow'>
-              <div className='file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg'>
-                <div className='flex flex-col w-max mx-auto text-center'>
+            <div className="p-3 w-full rounded-lg bg-white/5 border border-purple-300/20">
+              <div className="file_upload px-4 py-2 border-2 border-dashed border-purple-300/30 rounded-lg">
+                <div className="flex justify-center text-center">
                   <label>
                     <input
-                      className='text-sm cursor-pointer w-36 hidden'
-                      type='file'
-                      name='image'
-                      id='image'
-                      accept='image/*'
+                      className="hidden"
+                      type="file"
+                      name="image"
+                      id="image"
+                      accept="image/*"
                       hidden
                     />
-                    <div className='bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500'>
+                    <div
+                      className="
+                        bg-purple-600/30
+                        text-purple-200
+                        border border-purple-300/30
+                        rounded-md
+                        font-medium
+                        cursor-pointer
+                        px-3 py-1.5
+                        hover:bg-purple-600/40
+                        transition
+                        text-sm
+                      "
+                    >
                       Upload Image
                     </div>
                   </label>
@@ -104,8 +168,19 @@ const UpdatePlantForm = () => {
 
             {/* Submit Button */}
             <button
-              type='submit'
-              className='w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 '
+              type="submit"
+              className="
+                w-full cursor-pointer p-2.5 mt-3
+                text-center font-medium
+                text-white
+                rounded-lg
+                bg-purple-600/50
+                hover:bg-purple-600/70
+                backdrop-blur-md
+                shadow-lg
+                transition
+                text-sm
+              "
             >
               Update Plant
             </button>
@@ -113,7 +188,7 @@ const UpdatePlantForm = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default UpdatePlantForm
+export default UpdatePlantForm;

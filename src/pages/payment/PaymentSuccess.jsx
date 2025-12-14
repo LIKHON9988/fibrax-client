@@ -46,7 +46,7 @@ const PaymentSuccess = () => {
         {/* ACTION BUTTONS */}
         <div className="flex flex-col gap-4">
           <Link
-            to="/dashboard/orders"
+            to="/dashboard/my-orders"
             className="px-6 py-3 rounded-xl bg-purple-500/20 border border-purple-400/30 text-purple-200 font-semibold hover:bg-purple-500/30 transition"
           >
             View Orders

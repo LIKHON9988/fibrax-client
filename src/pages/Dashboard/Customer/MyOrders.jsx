@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import ErrorPage from "../../ErrorPage";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
+import DeleteModal from "../../../components/Modal/DeleteModal";
 
 const MyOrders = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const closeModal = () => setIsOpen(false);
+  const queryClient = useQueryClient();
+
   const { user } = useAuth();
   const {
     data: orders = [],
@@ -63,7 +69,7 @@ const MyOrders = () => {
           {/* TABLE BODY */}
           <tbody className="divide-y divide-purple-300/10">
             {orders.map((order) => (
-              <tr key={order.id} className="hover:bg-purple-500/10 transition">
+              <tr key={order._id || order.id} className="hover:bg-purple-500/10 transition">
                 <td className="px-6 py-4 font-mono text-purple-200">
                   {order.productId}
                 </td>
@@ -96,16 +102,39 @@ const MyOrders = () => {
                 {/* ACTION */}
                 <td className="px-6 py-4">
                   <div
+                    onClick={() => {
+                      setSelectedOrderId(order._id || order.id);
+                      setIsOpen(true);
+                    }}
                     className="
-                      inline-flex items-center justify-center
+                      inline-flex items-center justifycenter
                       px-4 py-1.5 rounded-full hover:cursor-pointer
-                      bg-purple-500/20 border border-purple-400/30
-                      text-purple-200 text-xs font-semibold
-                      hover:bg-purple-500/30 transition
+                      bg-red-500/20 border border-red-400/30 text-red-200 text-xs font-semibold
+                      hover:bg-red-500/30 transition
                     "
                   >
                     Cancel
                   </div>
+                  <DeleteModal
+                    isOpen={isOpen}
+                    closeModal={closeModal}
+                    onConfirm={async () => {
+                      if (!selectedOrderId) return;
+                      try {
+                        await axios.delete(
+                          `${import.meta.env.VITE_API_URL}/orders/${selectedOrderId}`
+                        );
+                        closeModal();
+                        setSelectedOrderId(null);
+                        queryClient.invalidateQueries({
+                          queryKey: ["orders", user?.email],
+                        });
+                      } catch (err) {
+                        console.log(err);
+                        closeModal();
+                      }
+                    }}
+                  />
                 </td>
               </tr>
             ))}
