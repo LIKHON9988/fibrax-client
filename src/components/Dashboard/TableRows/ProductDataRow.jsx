@@ -30,17 +30,17 @@ const ProductDataRow = ({ product, onUpdated, onDeleted }) => {
         </div>
       </td>
 
-      {/* NAME */}
+      {/* name */}
       <td className="px-5 py-5 border-b border-purple-300/10 text-sm">
         <p className="text-gray-200 font-medium">{product.name}</p>
       </td>
 
-      {/* PRICE */}
+      {/* price */}
       <td className="px-5 py-5 border-b border-purple-300/10 text-sm">
         <p className="text-purple-200 font-semibold">${product.price}</p>
       </td>
 
-      {/* PAYMENT MODE */}
+      {/* payment mode */}
       <td className="px-5 py-5 border-b border-purple-300/10 text-sm">
         <p className="text-gray-300">{product.payment}</p>
       </td>
