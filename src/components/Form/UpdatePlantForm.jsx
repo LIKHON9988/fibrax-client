@@ -27,7 +27,7 @@ const UpdatePlantForm = () => {
                 name="name"
                 id="name"
                 type="text"
-                placeholder="Plant Name"
+                placeholder="Product Name"
                 required
               />
             </div>
@@ -50,17 +50,17 @@ const UpdatePlantForm = () => {
                 "
                 name="category"
               >
-                <option className="bg-gray-900" value="Indoor">
-                  Indoor
+                <option value="Shirt" className="text-black">
+                  Shirt
                 </option>
-                <option className="bg-gray-900" value="Outdoor">
-                  Outdoor
+                <option value="Pant" className="text-black">
+                  Pant
                 </option>
-                <option className="bg-gray-900" value="Succulent">
-                  Succulent
+                <option value="Jacket" className="text-black">
+                  Jacket
                 </option>
-                <option className="bg-gray-900" value="Flowering">
-                  Flowering
+                <option value="Accessories" className="text-black">
+                  Accessories
                 </option>
               </select>
             </div>
@@ -138,7 +138,7 @@ const UpdatePlantForm = () => {
             {/* IMAGE UPLOAD */}
             <div className="rounded-lg bg-white/5 border border-purple-300/20 p-2">
               <label className="block text-purple-300 text-xs mb-1">
-                Plant Image
+                Product Image
               </label>
 
               <div
