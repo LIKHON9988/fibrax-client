@@ -1,8 +1,10 @@
 import { useState } from "react";
+import axios from "axios";
 import DeleteModal from "../../Modal/DeleteModal";
-import UpdatePlantModal from "../../Modal/UpdatePlantModal";
 
-const ProductDataRow = ({ product }) => {
+import UpdateProductModal from "../../Modal/UpdateProductModal";
+
+const ProductDataRow = ({ product, onUpdated, onDeleted }) => {
   let [isOpen, setIsOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -64,7 +66,23 @@ const ProductDataRow = ({ product }) => {
           ></span>
           <span className="relative">Delete</span>
         </span>
-        <DeleteModal isOpen={isOpen} closeModal={closeModal} />
+        <DeleteModal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          onConfirm={async () => {
+            try {
+              const id = product._id || product.id;
+              await axios.delete(
+                `${import.meta.env.VITE_API_URL}/products/${id}`
+              );
+              closeModal();
+              onDeleted && onDeleted();
+            } catch (err) {
+              console.log(err);
+              closeModal();
+            }
+          }}
+        />
       </td>
 
       {/* UPDATE */}
@@ -88,9 +106,11 @@ const ProductDataRow = ({ product }) => {
           ></span>
           <span className="relative">Update</span>
         </span>
-        <UpdatePlantModal
+        <UpdateProductModal
           isOpen={isEditModalOpen}
           setIsEditModalOpen={setIsEditModalOpen}
+          product={product}
+          onUpdated={onUpdated}
         />
       </td>
     </tr>

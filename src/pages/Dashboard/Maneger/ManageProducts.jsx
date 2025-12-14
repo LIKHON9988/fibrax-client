@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import useAuth from "../../../hooks/useAuth";
@@ -9,6 +9,7 @@ import ProductDataRow from "../../../components/Dashboard/TableRows/ProductDataR
 const ManageOrders = () => {
   const [search, setSearch] = useState("");
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: async () => {
@@ -97,6 +98,16 @@ const ManageOrders = () => {
                     key={product._id}
                     product={product}
                     search={search}
+                    onUpdated={() =>
+                      queryClient.invalidateQueries({
+                        queryKey: ["products", user?.email],
+                      })
+                    }
+                    onDeleted={() =>
+                      queryClient.invalidateQueries({
+                        queryKey: ["products", user?.email],
+                      })
+                    }
                   />
                 ))}
               </tbody>
