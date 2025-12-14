@@ -1,18 +1,23 @@
+import { useState } from "react";
+
 const UpdatePlantForm = () => {
+  const [preview, setPreview] = useState(null);
+
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col justify-center items-center rounded-xl bg-white/5 backdrop-blur-2xl border border-purple-300/20 p-4">
+    <div className="w-full max-w-sm mx-auto rounded-xl bg-white/5 backdrop-blur-2xl border border-purple-300/20 p-3">
       <form className="w-full">
-        <div className="grid grid-cols-1 gap-6">
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-4">
+          {/* BASIC INFO */}
+          <div className="space-y-3">
             {/* Name */}
-            <div className="space-y-1 text-sm">
+            <div className="space-y-1 text-xs">
               <label htmlFor="name" className="block text-purple-200">
                 Name
               </label>
               <input
                 className="
-                  w-full px-3 py-2
-                  text-gray-200
+                  w-full px-2.5 py-1.5
+                  text-gray-200 text-sm
                   bg-white/10
                   border border-purple-300/20
                   rounded-md
@@ -28,16 +33,16 @@ const UpdatePlantForm = () => {
             </div>
 
             {/* Category */}
-            <div className="space-y-1 text-sm">
+            <div className="space-y-1 text-xs">
               <label htmlFor="category" className="block text-purple-200">
                 Category
               </label>
               <select
                 required
                 className="
-                  w-full px-3 py-2
+                  w-full px-2.5 py-1.5
                   bg-white/10
-                  text-gray-200
+                  text-gray-200 text-sm
                   border border-purple-300/20
                   rounded-md
                   focus:outline-none
@@ -61,16 +66,16 @@ const UpdatePlantForm = () => {
             </div>
 
             {/* Description */}
-            <div className="space-y-1 text-sm">
+            <div className="space-y-1 text-xs">
               <label htmlFor="description" className="block text-purple-200">
                 Description
               </label>
               <textarea
                 id="description"
-                placeholder="Write plant description here..."
+                placeholder="Short description..."
                 className="
-                  block w-full h-24 px-3 py-2
-                  text-gray-200
+                  block w-full h-20 px-2.5 py-1.5
+                  text-gray-200 text-sm
                   bg-white/10
                   border border-purple-300/20
                   rounded-md
@@ -82,18 +87,17 @@ const UpdatePlantForm = () => {
             </div>
           </div>
 
-          <div className="space-y-4 flex flex-col">
-            {/* Price & Quantity */}
-            <div className="flex gap-3">
-              {/* Price */}
-              <div className="space-y-1 text-sm w-full">
+          {/* PRICE & IMAGE */}
+          <div className="space-y-3">
+            <div className="flex gap-2">
+              <div className="space-y-1 text-xs w-full">
                 <label htmlFor="price" className="block text-purple-200">
                   Price
                 </label>
                 <input
                   className="
-                    w-full px-3 py-2
-                    text-gray-200
+                    w-full px-2.5 py-1.5
+                    text-gray-200 text-sm
                     bg-white/10
                     border border-purple-300/20
                     rounded-md
@@ -108,15 +112,14 @@ const UpdatePlantForm = () => {
                 />
               </div>
 
-              {/* Quantity */}
-              <div className="space-y-1 text-sm w-full">
+              <div className="space-y-1 text-xs w-full">
                 <label htmlFor="quantity" className="block text-purple-200">
                   Quantity
                 </label>
                 <input
                   className="
-                    w-full px-3 py-2
-                    text-gray-200
+                    w-full px-2.5 py-1.5
+                    text-gray-200 text-sm
                     bg-white/10
                     border border-purple-300/20
                     rounded-md
@@ -132,54 +135,58 @@ const UpdatePlantForm = () => {
               </div>
             </div>
 
-            {/* Image */}
-            <div className="p-3 w-full rounded-lg bg-white/5 border border-purple-300/20">
-              <div className="file_upload px-4 py-2 border-2 border-dashed border-purple-300/30 rounded-lg">
-                <div className="flex justify-center text-center">
-                  <label>
-                    <input
-                      className="hidden"
-                      type="file"
-                      name="image"
-                      id="image"
-                      accept="image/*"
-                      hidden
-                    />
-                    <div
-                      className="
-                        bg-purple-600/30
-                        text-purple-200
-                        border border-purple-300/30
-                        rounded-md
-                        font-medium
-                        cursor-pointer
-                        px-3 py-1.5
-                        hover:bg-purple-600/40
-                        transition
-                        text-sm
-                      "
-                    >
-                      Upload Image
-                    </div>
-                  </label>
-                </div>
+            {/* IMAGE UPLOAD */}
+            <div className="rounded-lg bg-white/5 border border-purple-300/20 p-2">
+              <label className="block text-purple-300 text-xs mb-1">
+                Plant Image
+              </label>
+
+              <div
+                className="
+                  relative flex items-center justify-center
+                  h-28 rounded-lg
+                  border border-dashed border-purple-400/30
+                  bg-purple-500/10
+                  cursor-pointer
+                  hover:border-purple-400/60
+                  transition
+                "
+              >
+                {preview ? (
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    className="h-full w-full object-cover rounded-lg"
+                  />
+                ) : (
+                  <p className="text-xs text-purple-200 opacity-70">
+                    Upload image
+                  </p>
+                )}
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) setPreview(URL.createObjectURL(file));
+                  }}
+                />
               </div>
             </div>
 
-            {/* Submit Button */}
+            {/* SUBMIT */}
             <button
               type="submit"
               className="
-                w-full cursor-pointer p-2.5 mt-3
-                text-center font-medium
+                w-full p-2
+                text-xs font-semibold
                 text-white
-                rounded-lg
+                rounded-md
                 bg-purple-600/50
                 hover:bg-purple-600/70
-                backdrop-blur-md
-                shadow-lg
                 transition
-                text-sm
               "
             >
               Update Plant
