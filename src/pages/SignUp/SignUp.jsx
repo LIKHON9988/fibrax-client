@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form";
 
-import { imageUpload } from "../../utils";
+import { imageUpload, saveOrUpdateUser } from "../../utils";
 
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } =
@@ -21,7 +21,7 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const { name, image, email, password } = data;
+    const { name, image, email, password, role } = data;
 
     const imageData = image?.[0];
     // const formData = new FormData();
@@ -40,6 +40,8 @@ const SignUp = () => {
 
       const result = await createUser(email, password);
 
+      await saveOrUpdateUser({ name, email, role, image: imageURL });
+
       await updateUserProfile(name, imageURL);
 
       console.log(result);
@@ -54,7 +56,14 @@ const SignUp = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
+      const { user } = await signInWithGoogle();
+
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        role: "Buyer",
+        image: user?.photoURL,
+      });
 
       navigate(from, { replace: true });
       toast.success("Signup Successful");
@@ -124,8 +133,8 @@ const SignUp = () => {
                 <option value="buyer" className="text-black">
                   Buyer
                 </option>
-                <option value="Seller" className="text-black">
-                  Seller
+                <option value="Manager " className="text-black">
+                  Manager
                 </option>
               </select>
               {errors.role && (
@@ -172,7 +181,13 @@ const SignUp = () => {
           {/* Submit Button (unchanged) */}
           <button
             type="submit"
-            className="bg-lime-500 w-full rounded-md py-3 text-white font-semibold shadow-md"
+            className="  w-full py-3 text-center rounded-xl
+                bg-gradient-to-r from-purple-600/40 to-pink-600/40
+                border border-purple-300/30
+                text-white font-semibold backdrop-blur-xl
+                hover:from-purple-600/60 hover:to-pink-600/60
+                hover:shadow-lg hover:shadow-purple-500/30
+                transition-all"
           >
             {loading ? (
               <TbFidgetSpinner className="animate-spin m-auto" />

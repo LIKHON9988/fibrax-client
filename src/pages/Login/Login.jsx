@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+import { saveOrUpdateUser } from "../../utils";
 
 const Login = () => {
   const { signIn, signInWithGoogle, loading, user, setLoading } = useAuth();
@@ -24,7 +25,15 @@ const Login = () => {
   // Submit handler
   const onSubmit = async (data) => {
     try {
-      await signIn(data.email, data.password);
+      const { user } = await signIn(data.email, data.password);
+
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        role: "Buyer",
+        image: user?.photoURL,
+      });
+
       navigate(from, { replace: true });
       toast.success("Login Successful");
     } catch (err) {
@@ -36,7 +45,15 @@ const Login = () => {
   // Google login handler
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
+      const { user } = await signInWithGoogle();
+
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        role: "Buyer",
+        image: user?.photoURL,
+      });
+
       navigate(from, { replace: true });
       toast.success("Login Successful");
     } catch (err) {
@@ -101,7 +118,13 @@ const Login = () => {
           {/* Submit Button (unchanged) */}
           <button
             type="submit"
-            className="bg-lime-500 w-full rounded-md py-3 text-white font-semibold shadow-md"
+            className="  w-full py-3 text-center rounded-xl
+                bg-gradient-to-r from-purple-600/40 to-pink-600/40
+                border border-purple-300/30
+                text-white font-semibold backdrop-blur-xl
+                hover:from-purple-600/60 hover:to-pink-600/60
+                hover:shadow-lg hover:shadow-purple-500/30
+                transition-all"
           >
             {loading ? (
               <TbFidgetSpinner className="animate-spin m-auto" />

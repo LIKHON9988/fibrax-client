@@ -68,8 +68,8 @@ const Navbar = () => {
 
                 <NavLink
                   to="/signup"
-                  className="px-5 py-2 rounded-full bg-red-600/80 text-white shadow-md
-                  hover:bg-red-700 hover:shadow-xl transition-all backdrop-blur-lg"
+                  className="px-5 py-2 rounded-full  bg-gradient-to-r from-purple-600/40 to-pink-600/40 text-white shadow-md
+                  hover:from-purple-600/60 hover:to-pink-600/60 hover:shadow-xl transition-all backdrop-blur-lg"
                 >
                   Register
                 </NavLink>
@@ -95,7 +95,7 @@ const Navbar = () => {
 
                 <div
                   onClick={logOut}
-                  className="cursor-pointer px-5 py-2 rounded-full bg-red-600/70 text-white shadow-md 
+                  className="cursor-pointer px-5 py-2 rounded-full bg-gradient-to-r from-red-700 to-pink-600/40 text-white shadow-md 
                   hover:bg-red-700 hover:shadow-xl transition-all"
                 >
                   Logout
@@ -171,8 +171,8 @@ const Navbar = () => {
                 <NavLink
                   to="/signup"
                   onClick={() => setIsOpen(false)}
-                  className="px-4 py-2 rounded-full bg-red-600/80 text-white shadow 
-                  hover:bg-red-700 hover:shadow-xl transition"
+                  className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600/40 to-pink-600/40 text-white shadow 
+                  hover:from-purple-600/60 hover:to-pink-600/60 hover:shadow-xl transition"
                 >
                   Register
                 </NavLink>
