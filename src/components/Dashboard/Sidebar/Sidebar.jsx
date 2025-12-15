@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import logo from "../../../assets/images/logo.png";
+import useRole from "../../../hooks/useRole";
 // Icons
 import { GrLogout } from "react-icons/gr";
 import { FcSettings } from "react-icons/fc";
@@ -11,17 +12,22 @@ import { BsGraphUp } from "react-icons/bs";
 // User Menu
 import MenuItem from "./Menu/MenuItem";
 import AdminMenu from "./Menu/AdminMenu";
-import SellerMenu from "./Menu/SellerMenu";
-import CustomerMenu from "./Menu/CustomerMenu";
+import ManagerMenu from "./Menu/ManagerMenu";
+import BuyerMenu from "./Menu/BuyerMenu";
+import LoadingSpinner from "../../Shared/LoadingSpinner";
 
 const Sidebar = () => {
   const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
 
+  const [role, isRefreshing] = useRole();
+
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
   };
+
+  if (isRefreshing) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <>
@@ -60,9 +66,9 @@ const Sidebar = () => {
               />
 
               {/* Role-Based Menus */}
-              <CustomerMenu />
-              <SellerMenu />
-              <AdminMenu />
+              {role === "Buyer" && <BuyerMenu></BuyerMenu>}
+              {role === "Manager" && <ManagerMenu />}
+              {role === "Admin" && <AdminMenu />}
             </nav>
           </div>
 
