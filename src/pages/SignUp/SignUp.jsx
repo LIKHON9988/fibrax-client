@@ -130,10 +130,10 @@ const SignUp = () => {
                 <option value="" className="text-black">
                   Select role
                 </option>
-                <option value="buyer" className="text-black">
+                <option value="Buyer" className="text-black">
                   Buyer
                 </option>
-                <option value="Manager " className="text-black">
+                <option value="Manager" className="text-black">
                   Manager
                 </option>
               </select>

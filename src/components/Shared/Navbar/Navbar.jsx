@@ -86,12 +86,15 @@ const Navbar = () => {
                 </NavLink>
 
                 {/* Avatar */}
-                <img
-                  src={user.photoURL || avatarImg}
-                  alt="avatar"
-                  className="w-10 h-10 rounded-full border-2 border-red-400 shadow-lg 
+                <NavLink to={"/profile"}>
+                  {" "}
+                  <img
+                    src={user.photoURL || avatarImg}
+                    alt="avatar"
+                    className="w-10 h-10 rounded-full border-2 border-red-400 shadow-lg 
                   cursor-pointer hover:scale-110 transition hover:shadow-red-400"
-                />
+                  />
+                </NavLink>
 
                 <div
                   onClick={logOut}

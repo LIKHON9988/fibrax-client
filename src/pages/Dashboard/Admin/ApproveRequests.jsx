@@ -1,28 +1,30 @@
-import { useQuery } from "@tanstack/react-query";
-import UserDataRow from "../../../components/Dashboard/TableRows/UserDataRow";
-import useAuth from "../../../hooks/useAuth";
+import React from "react";
+
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import ErrorPage from "../../ErrorPage";
+import ApproveData from "../../../components/Dashboard/TableRows/ApproveData";
 
-const ManageUsers = () => {
+const ApproveRequests = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const {
-    data: users = [],
+    data: requests = [],
     isLoading,
     refetch,
     isError,
   } = useQuery({
-    queryKey: ["all-users", user?.email],
+    queryKey: ["manager-requests", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure(`/all-users`);
+      const res = await axiosSecure(`/manager-requests`);
       return res.data;
     },
     staleTime: 60 * 1000,
   });
 
-  console.log(users);
+  console.log(requests);
 
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <ErrorPage />;
@@ -32,27 +34,26 @@ const ManageUsers = () => {
       <div className="py-8 md:py-12 space-y-6">
         {/* Glass Table Wrapper */}
         <div className="rounded-2xl bg-white/1 backdrop-blur-xl border border-red-400/40 shadow-lg overflow-x-auto">
-          <table className="min-w-full text-white">
+          <table className="min-w-full text-white text-center">
             <thead>
               <tr className="bg-white/10 backdrop-blur-xl">
-                <th className="px-6 py-4 text-left text-sm font-semibold uppercase border-b border-white/20">
-                  Name
-                </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold uppercase border-b border-white/20">
+                <th className="px-6 py-4  text-sm font-semibold  uppercase border-b border-white/20">
                   Email
                 </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold uppercase border-b border-white/20">
-                  Role
-                </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold uppercase border-b border-white/20">
+
+                <th className="px-6 py-4  text-sm font-semibold uppercase border-b border-white/20">
                   Action
                 </th>
               </tr>
             </thead>
 
             <tbody className="divide-y divide-white/10">
-              {users.map((user) => (
-                <UserDataRow refetch={refetch} key={user?._id} user={user} />
+              {requests.map((request) => (
+                <ApproveData
+                  refetch={refetch}
+                  key={request._id}
+                  request={request}
+                ></ApproveData>
               ))}
             </tbody>
           </table>
@@ -62,4 +63,4 @@ const ManageUsers = () => {
   );
 };
 
-export default ManageUsers;
+export default ApproveRequests;

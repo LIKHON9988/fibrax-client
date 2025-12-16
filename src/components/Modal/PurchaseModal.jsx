@@ -88,7 +88,7 @@ const PurchaseModal = ({ closeModal, isOpen, product }) => {
               <span className="text-purple-200">{user?.displayName}</span>
             </p>
             <p className="text-sm">
-              Price: <span className="text-purple-200">{price} Tk.</span>
+              Price: <span className="text-purple-200">${price}</span>
             </p>
             <p className="text-sm">
               Available Quantity:{" "}

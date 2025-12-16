@@ -23,6 +23,9 @@ import PaymentSuccess from "../pages/payment/PaymentSuccess";
 import AdminAllProducts from "../pages/Dashboard/Admin/AdminAllProducts";
 import AllOrders from "../pages/Dashboard/Admin/AllOrders";
 import MyOrders from "../pages/Dashboard/Customer/MyOrders";
+import ApproveRequests from "../pages/Dashboard/Admin/ApproveRequests";
+import ManagerRoutes from "./ManagerRoutes";
+import AdminRoutes from "./AdminRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +59,7 @@ export const router = createBrowserRouter([
       },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <SignUp /> },
+      { path: "/profile", element: <Profile /> },
     ],
   },
 
@@ -79,7 +83,9 @@ export const router = createBrowserRouter([
         path: "add-product",
         element: (
           <PrivateRoute>
-            <AddProduct />
+            <ManagerRoutes>
+              <AddProduct />
+            </ManagerRoutes>
           </PrivateRoute>
         ),
       },
@@ -87,7 +93,9 @@ export const router = createBrowserRouter([
         path: "all-products",
         element: (
           <PrivateRoute>
-            <AdminAllProducts></AdminAllProducts>
+            <AdminRoutes>
+              <AdminAllProducts></AdminAllProducts>
+            </AdminRoutes>
           </PrivateRoute>
         ),
       },
@@ -96,7 +104,9 @@ export const router = createBrowserRouter([
         path: "manage-products",
         element: (
           <PrivateRoute>
-            <ManageProducts></ManageProducts>
+            <ManagerRoutes>
+              <ManageProducts></ManageProducts>
+            </ManagerRoutes>
           </PrivateRoute>
         ),
       },
@@ -104,7 +114,19 @@ export const router = createBrowserRouter([
         path: "manage-users",
         element: (
           <PrivateRoute>
-            <ManageUsers />
+            <AdminRoutes>
+              <ManageUsers />
+            </AdminRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "approve-requests",
+        element: (
+          <PrivateRoute>
+            <AdminRoutes>
+              <ApproveRequests />
+            </AdminRoutes>
           </PrivateRoute>
         ),
       },
@@ -120,7 +142,9 @@ export const router = createBrowserRouter([
         path: "All-orders",
         element: (
           <PrivateRoute>
-            <AllOrders />
+            <AdminRoutes>
+              <AllOrders />
+            </AdminRoutes>
           </PrivateRoute>
         ),
       },
@@ -134,7 +158,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "manage-orders",
-        element: <ManageOrders />,
+        element: (
+          <PrivateRoute>
+            <ManagerRoutes>
+              <ManageOrders />
+            </ManagerRoutes>
+          </PrivateRoute>
+        ),
       },
     ],
   },

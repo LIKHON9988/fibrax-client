@@ -1,5 +1,5 @@
 import useAuth from "../../../hooks/useAuth";
-import useRole from "../../../hooks/UseRole";
+import useRole from "../../../hooks/useRole";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -9,7 +9,7 @@ const Profile = () => {
   console.log(role, isRefreshing);
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4 py-12 bg-gradient-to-br from-black via-purple-900/20 to-black">
+    <div className="flex justify-center items-center min-h-screen px-4 py-12 ">
       <div
         className="
           relative w-full max-w-xl

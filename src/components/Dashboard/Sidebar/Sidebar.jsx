@@ -22,6 +22,8 @@ const Sidebar = () => {
 
   const [role, isRefreshing] = useRole();
 
+  console.log(role);
+
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);

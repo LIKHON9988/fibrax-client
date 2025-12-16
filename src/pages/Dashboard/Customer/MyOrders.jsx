@@ -6,9 +6,13 @@ import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import DeleteModal from "../../../components/Modal/DeleteModal";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MyOrders = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const axiosSecure = useAxiosSecure();
+
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const closeModal = () => setIsOpen(false);
   const queryClient = useQueryClient();
@@ -21,9 +25,7 @@ const MyOrders = () => {
   } = useQuery({
     queryKey: ["orders", user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/my-orders/${user?.email}`
-      );
+      const res = await axiosSecure(`/my-orders`);
       return res.data;
     },
     staleTime: 60 * 1000,
@@ -69,7 +71,10 @@ const MyOrders = () => {
           {/* TABLE BODY */}
           <tbody className="divide-y divide-purple-300/10">
             {orders.map((order) => (
-              <tr key={order._id || order.id} className="hover:bg-purple-500/10 transition">
+              <tr
+                key={order._id || order.id}
+                className="hover:bg-purple-500/10 transition"
+              >
                 <td className="px-6 py-4 font-mono text-purple-200">
                   {order.productId}
                 </td>
@@ -122,7 +127,9 @@ const MyOrders = () => {
                       if (!selectedOrderId) return;
                       try {
                         await axios.delete(
-                          `${import.meta.env.VITE_API_URL}/orders/${selectedOrderId}`
+                          `${
+                            import.meta.env.VITE_API_URL
+                          }/orders/${selectedOrderId}`
                         );
                         closeModal();
                         setSelectedOrderId(null);

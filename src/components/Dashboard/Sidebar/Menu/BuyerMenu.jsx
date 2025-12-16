@@ -2,7 +2,7 @@ import { BsFingerprint } from "react-icons/bs";
 import { GrUserAdmin } from "react-icons/gr";
 import MenuItem from "./MenuItem";
 import { useState } from "react";
-import BecomeSellerModal from "../../../Modal/BecomeSellerModal";
+import BecomeManagerModal from "../../../Modal/BecomeManagerModal";
 const BuyerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -20,10 +20,10 @@ const BuyerMenu = () => {
       >
         <GrUserAdmin className="w-5 h-5" />
 
-        <span className="mx-4 font-medium">Become A Seller</span>
+        <span className="mx-2 font-medium">Become a Manager</span>
       </div>
 
-      <BecomeSellerModal closeModal={closeModal} isOpen={isOpen} />
+      <BecomeManagerModal closeModal={closeModal} isOpen={isOpen} />
     </>
   );
 };

@@ -1,8 +1,28 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState } from "react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
-const UpdateUserRoleModal = ({ isOpen, closeModal, role }) => {
-  const [updatedRole, setUpdatedRole] = useState(role);
+const UpdateUserRoleModal = ({ isOpen, closeModal, user, refetch }) => {
+  const [updatedRole, setUpdatedRole] = useState(user?.role);
+
+  const axiosSequre = useAxiosSecure();
+
+  const handleRoleChange = async () => {
+    try {
+      await axiosSequre.patch(`/update-role`, {
+        email: user.email,
+        role: updatedRole,
+      });
+      toast.success("Role updated!");
+      refetch();
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.response?.data?.message);
+    } finally {
+      closeModal();
+    }
+  };
 
   return (
     <>
@@ -20,7 +40,7 @@ const UpdateUserRoleModal = ({ isOpen, closeModal, role }) => {
             >
               <DialogTitle
                 as="h3"
-                className="text-base/7 font-medium text-black"
+                className="text-base/7 font-medium text-white"
               >
                 Update User Role
               </DialogTitle>
@@ -29,25 +49,26 @@ const UpdateUserRoleModal = ({ isOpen, closeModal, role }) => {
                   <select
                     value={updatedRole}
                     onChange={(e) => setUpdatedRole(e.target.value)}
-                    className="w-full my-3 border border-gray-200 rounded-xl px-2 py-3"
+                    className="w-full my-3 border border-gray-200 rounded-xl px-2 py-3 text-white bg-purple-900"
                     name="role"
                     id=""
                   >
-                    <option value="customer">Customer</option>
-                    <option value="Seller">Seller</option>
-                    <option value="admin">Admin</option>
+                    <option value="Buyer">Buyer</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Admin">Admin</option>
                   </select>
                 </div>
                 <div className="flex mt-2 justify-around">
                   <button
+                    onClick={handleRoleChange}
                     type="button"
-                    className="cursor-pointer inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                    className="cursor-pointer inline-flex justify-center rounded-md border border-transparent bg-green-300 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                   >
                     Update
                   </button>
                   <button
                     type="button"
-                    className="cursor-pointer inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                    className="cursor-pointer inline-flex justify-center rounded-md border border-transparent bg-red-300 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                     onClick={closeModal}
                   >
                     Cancel
