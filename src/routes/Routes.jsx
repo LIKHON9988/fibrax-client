@@ -12,6 +12,8 @@ import Statistics from "../pages/Dashboard/Common/Statistics";
 import MainLayout from "../layouts/MainLayout";
 import ManageProducts from "../pages/Dashboard/Maneger/ManageProducts";
 import ManageOrders from "../pages/Dashboard/Maneger/ManageOrders";
+import ApprovedOrders from "../pages/Dashboard/Maneger/ApprovedOrders";
+import PendingOrders from "../pages/Dashboard/Maneger/PendingOrders";
 
 import { createBrowserRouter } from "react-router";
 import AllProduct from "../pages/AllProduct/AllProduct";
@@ -178,6 +180,26 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <ManagerRoutes>
               <ManageOrders />
+            </ManagerRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "approved-orders",
+        element: (
+          <PrivateRoute>
+            <ManagerRoutes>
+              <ApprovedOrders />
+            </ManagerRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "pending-orders",
+        element: (
+          <PrivateRoute>
+            <ManagerRoutes>
+              <PendingOrders />
             </ManagerRoutes>
           </PrivateRoute>
         ),

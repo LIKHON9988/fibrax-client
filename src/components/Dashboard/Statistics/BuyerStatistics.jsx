@@ -1,20 +1,32 @@
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { FaCheckCircle, FaTimesCircle, FaClock } from "react-icons/fa";
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+} from "recharts";
 
 const BuyerStatistics = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["buyer-stats", user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/my-orders/${user?.email}`
-      );
-      return res.data;
+      const res = await axiosSecure(`/my-orders`);
+      return Array.isArray(res.data) ? res.data : [];
     },
     enabled: !!user?.email,
     staleTime: 60 * 1000,
@@ -23,10 +35,43 @@ const BuyerStatistics = () => {
   if (isLoading) return <LoadingSpinner smallHeight />;
 
   const totalOrders = orders.length;
-  const pendingOrders = orders.filter((o) => o.status === "pending" || o.status === "Pending").length;
-  const approvedOrders = orders.filter((o) => o.status === "approved" || o.status === "Approved").length;
-  const rejectedOrders = orders.filter((o) => o.status === "rejected" || o.status === "Rejected").length;
-  const totalSpent = orders.reduce((sum, o) => sum + Number(o.price || 0) * Number(o.quantity || 1), 0);
+  const pendingOrders = orders.filter(
+    (o) => (o.status || "").toLowerCase() === "pending"
+  ).length;
+  const approvedOrders = orders.filter(
+    (o) => (o.status || "").toLowerCase() === "approved"
+  ).length;
+  const rejectedOrders = orders.filter(
+    (o) => (o.status || "").toLowerCase() === "rejected"
+  ).length;
+  const totalSpent = orders.reduce(
+    (sum, o) => sum + Number(o.price || 0) * Number(o.quantity || 1),
+    0
+  );
+
+  const statusData = [
+    { label: "Pending", value: pendingOrders },
+    { label: "Approved", value: approvedOrders },
+    { label: "Rejected", value: rejectedOrders },
+  ];
+
+  const monthKey = (d) => {
+    try {
+      const dt = new Date(d);
+      return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}`;
+    } catch {
+      return null;
+    }
+  };
+  const spendByMonthMap = orders.reduce((acc, o, idx) => {
+    const key = monthKey(o.created_at) ?? `#${idx + 1}`;
+    const amt = Number(o.price || 0) * Number(o.quantity || 1);
+    acc[key] = (acc[key] || 0) + amt;
+    return acc;
+  }, {});
+  const spendingSeries = Object.entries(spendByMonthMap)
+    .map(([month, amount]) => ({ month, amount }))
+    .slice(-10);
 
   return (
     <div className="mt-6">
@@ -60,51 +105,36 @@ const BuyerStatistics = () => {
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="bg-white/10 backdrop-blur-xl border border-purple-300/20 rounded-2xl p-6 shadow-2xl lg:col-span-2">
           <h3 className="text-purple-200 font-semibold mb-3">Spending Overview</h3>
-          <div className="flex items-end gap-2 h-40">
-            {orders.slice(0, 12).map((o, idx) => {
-              const amt = Number(o.price || 0) * Number(o.quantity || 1);
-              const height = Math.min(100, Math.round((amt / (totalSpent || 1)) * 100));
-              return (
-                <div
-                  key={idx}
-                  className="flex-1 bg-purple-500/30 border border-purple-400/30 rounded-t"
-                  style={{ height: `${Math.max(10, height)}%` }}
-                  title={`$${amt}`}
-                />
-              );
-            })}
+          <div className="h-56">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={spendingSeries}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff22" />
+                <XAxis dataKey="month" stroke="#e9d5ff" />
+                <YAxis stroke="#e9d5ff" />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="amount" stroke="#a78bfa" strokeWidth={2} dot={{ r: 3 }} />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
           <p className="mt-4 text-gray-300 text-sm">Total Spent: ${totalSpent.toFixed(2)}</p>
         </div>
 
         <div className="bg-white/10 backdrop-blur-xl border border-purple-300/20 rounded-2xl p-6 shadow-2xl">
           <h3 className="text-purple-200 font-semibold mb-3">Status Breakdown</h3>
-          <ul className="space-y-3 text-gray-200">
-            <li className="flex justify-between">
-              <span>Pending</span>
-              <span className="px-2 py-0.5 rounded bg-yellow-500/20 text-yellow-200 border border-yellow-400/20">
-                {pendingOrders}
-              </span>
-            </li>
-            <li className="flex justify-between">
-              <span>Approved</span>
-              <span className="px-2 py-0.5 rounded bg-green-500/20 text-green-200 border border-green-400/20">
-                {approvedOrders}
-              </span>
-            </li>
-            <li className="flex justify-between">
-              <span>Rejected</span>
-              <span className="px-2 py-0.5 rounded bg-red-500/20 text-red-200 border border-red-400/20">
-                {rejectedOrders}
-              </span>
-            </li>
-            <li className="flex justify-between">
-              <span>Total Orders</span>
-              <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-200 border border-blue-400/20">
-                {totalOrders}
-              </span>
-            </li>
-          </ul>
+          <div className="h-56">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={statusData} dataKey="value" nameKey="label" outerRadius={80} label>
+                  {statusData.map((_, i) => (
+                    <Cell key={i} fill={["#fbbf24", "#34d399", "#f87171"][i % 3]} />
+                  ))}
+                </Pie>
+                <Legend />
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>

@@ -61,6 +61,11 @@ const ManageOrders = () => {
                       queryKey: ["manage-orders", user?.email],
                     })
                   }
+                  onUpdated={() =>
+                    queryClient.invalidateQueries({
+                      queryKey: ["manage-orders", user?.email],
+                    })
+                  }
                 />
               ))}
             </tbody>

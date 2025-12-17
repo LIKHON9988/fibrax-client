@@ -1,33 +1,43 @@
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
 import { FaBoxes, FaDollarSign } from "react-icons/fa";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { MdWarningAmber } from "react-icons/md";
+import {
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  BarChart,
+  Bar,
+} from "recharts";
 
 const ManagerStatistics = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const { data: products = [], isLoading: pLoading } = useQuery({
     queryKey: ["manager-products", user?.email],
-    queryFn: async () =>
-      (
-        await axios.get(
-          `${import.meta.env.VITE_API_URL}/manage-products/${user?.email}`
-        )
-      ).data,
+    queryFn: async () => {
+      const res = await axiosSecure(`/manage-products/${user?.email}`);
+      return res.data;
+    },
     enabled: !!user?.email,
   });
 
   const { data: orders = [], isLoading: oLoading } = useQuery({
     queryKey: ["manager-orders", user?.email],
-    queryFn: async () =>
-      (
-        await axios.get(
-          `${import.meta.env.VITE_API_URL}/manage-orders/${user?.email}`
-        )
-      ).data,
+    queryFn: async () => {
+      const res = await axiosSecure(`/manage-orders/${user?.email}`);
+      return res.data;
+    },
     enabled: !!user?.email,
   });
 
@@ -53,9 +63,24 @@ const ManagerStatistics = () => {
     .filter((o) => o.status?.toLowerCase() === "approved")
     .reduce((sum, o) => sum + Number(o.price || 0), 0);
 
+  const statusData = [
+    { label: "Pending", value: pending },
+    { label: "Approved", value: approved },
+    { label: "Rejected", value: rejected },
+  ];
+
+  const categoryMap = products.reduce((acc, p) => {
+    const c = p.category || "Uncategorized";
+    acc[c] = (acc[c] || 0) + 1;
+    return acc;
+  }, {});
+  const categoryData = Object.entries(categoryMap).map(([label, value]) => ({
+    label,
+    value,
+  }));
+
   return (
-    <div className="mt-8 space-y-8">
-      {/* TOP STATS */}
+    <div className="mt-8 space-y-5 px-0 md:px-5 ">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <StatCard title="Inventory" value={inventoryCount} icon={FaBoxes} />
         <StatCard title="Low Stock" value={lowStock} icon={MdWarningAmber} />
@@ -67,16 +92,50 @@ const ManagerStatistics = () => {
         <StatCard title="Revenue" value={`$${revenue}`} icon={FaDollarSign} />
       </div>
 
-      {/* ORDER BREAKDOWN */}
-      <div className="bg-white/5 backdrop-blur-2xl border border-purple-300/20 rounded-3xl p-8 shadow-2xl">
-        <h3 className="text-lg font-semibold text-purple-200 mb-6">
-          Order Breakdown
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-          <RingStat label="Pending" value={pending} total={totalOrders} />
-          <RingStat label="Approved" value={approved} total={totalOrders} />
-          <RingStat label="Rejected" value={rejected} total={totalOrders} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white/10 backdrop-blur-2xl border border-purple-300/20 rounded-3xl p-6 shadow-2xl">
+          <h3 className="text-lg font-semibold text-purple-200 mb-3">
+            Orders by Status
+          </h3>
+          <div className="h-56">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={statusData}
+                  dataKey="value"
+                  nameKey="label"
+                  outerRadius={80}
+                  label
+                >
+                  {statusData.map((_, i) => (
+                    <Cell
+                      key={i}
+                      fill={["#fbbf24", "#34d399", "#f87171"][i % 3]}
+                    />
+                  ))}
+                </Pie>
+                <Legend />
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+        <div className="bg-white/10 backdrop-blur-2xl border border-purple-300/20 rounded-3xl p-6 shadow-2xl">
+          <h3 className="text-lg font-semibold text-purple-200 mb-3">
+            Inventory by Category
+          </h3>
+          <div className="h-56">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={categoryData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff22" />
+                <XAxis dataKey="label" stroke="#e9d5ff" />
+                <YAxis stroke="#e9d5ff" />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="value" fill="#60a5fa" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>
@@ -96,40 +155,5 @@ const StatCard = ({ title, value, icon: Icon }) => (
     </div>
   </div>
 );
-
-const RingStat = ({ label, value, total }) => {
-  const colors = {
-    Pending: "#facc15",
-    Approved: "#22c55e",
-    Rejected: "#ef4444",
-  };
-
-  const safeTotal = Math.max(total, 1);
-  const anglePerOrder = 360 / safeTotal;
-  const filledAngle = value * anglePerOrder;
-
-  return (
-    <div className="flex flex-col items-center">
-      <div
-        className="relative h-28 w-28 rounded-full flex items-center justify-center"
-        style={{
-          background: `conic-gradient(
-            ${colors[label]} 0deg ${filledAngle}deg,
-            rgba(255,255,255,0.08) ${filledAngle}deg 360deg
-          )`,
-        }}
-      >
-        <div className="h-18 w-18 rounded-full bg-[#0b0b16] backdrop-blur-xl flex items-center justify-center border border-white/10">
-          <span className="text-2xl font-semibold text-white">{value}</span>
-        </div>
-      </div>
-
-      <p className="mt-4 text-sm text-gray-300">{label}</p>
-      <p className="text-xs text-gray-500">
-        {value} of {total}
-      </p>
-    </div>
-  );
-};
 
 export default ManagerStatistics;
