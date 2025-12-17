@@ -25,7 +25,7 @@ const Card = ({ product }) => {
         <div
           className="
             w-full md:w-[45%]
-            h-40 sm:h-44 md:h-full
+            h-30 sm:h-34 md:h-full
             rounded-2xl
             overflow-hidden
           "
@@ -33,7 +33,7 @@ const Card = ({ product }) => {
           <img
             src={image}
             alt={name}
-            className="w-full h-[180px] object-cover transition-transform duration-500 hover:scale-105"
+            className="w-full h-[120px] md:h-[180px] object-cover transition-transform duration-500 hover:scale-105"
           />
         </div>
 

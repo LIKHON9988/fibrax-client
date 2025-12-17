@@ -58,7 +58,10 @@ const BuyerStatistics = () => {
   const monthKey = (d) => {
     try {
       const dt = new Date(d);
-      return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}`;
+      return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}`;
     } catch {
       return null;
     }
@@ -74,7 +77,7 @@ const BuyerStatistics = () => {
     .slice(-10);
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 px-0 md:px-5">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Orders"
@@ -104,7 +107,9 @@ const BuyerStatistics = () => {
 
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="bg-white/10 backdrop-blur-xl border border-purple-300/20 rounded-2xl p-6 shadow-2xl lg:col-span-2">
-          <h3 className="text-purple-200 font-semibold mb-3">Spending Overview</h3>
+          <h3 className="text-purple-200 font-semibold mb-3">
+            Spending Overview
+          </h3>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={spendingSeries}>
@@ -113,21 +118,40 @@ const BuyerStatistics = () => {
                 <YAxis stroke="#e9d5ff" />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="amount" stroke="#a78bfa" strokeWidth={2} dot={{ r: 3 }} />
+                <Line
+                  type="monotone"
+                  dataKey="amount"
+                  stroke="#a78bfa"
+                  strokeWidth={2}
+                  dot={{ r: 3 }}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
-          <p className="mt-4 text-gray-300 text-sm">Total Spent: ${totalSpent.toFixed(2)}</p>
+          <p className="mt-4 text-gray-300 text-sm">
+            Total Spent: ${totalSpent.toFixed(2)}
+          </p>
         </div>
 
         <div className="bg-white/10 backdrop-blur-xl border border-purple-300/20 rounded-2xl p-6 shadow-2xl">
-          <h3 className="text-purple-200 font-semibold mb-3">Status Breakdown</h3>
+          <h3 className="text-purple-200 font-semibold mb-3">
+            Status Breakdown
+          </h3>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={statusData} dataKey="value" nameKey="label" outerRadius={80} label>
+                <Pie
+                  data={statusData}
+                  dataKey="value"
+                  nameKey="label"
+                  outerRadius={80}
+                  label
+                >
                   {statusData.map((_, i) => (
-                    <Cell key={i} fill={["#fbbf24", "#34d399", "#f87171"][i % 3]} />
+                    <Cell
+                      key={i}
+                      fill={["#fbbf24", "#34d399", "#f87171"][i % 3]}
+                    />
                   ))}
                 </Pie>
                 <Legend />

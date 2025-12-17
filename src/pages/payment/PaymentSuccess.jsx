@@ -49,7 +49,7 @@ const PaymentSuccess = () => {
             to="/dashboard/my-orders"
             className="px-6 py-3 rounded-xl bg-purple-500/20 border border-purple-400/30 text-purple-200 font-semibold hover:bg-purple-500/30 transition"
           >
-            View Orders
+            View My Orders
           </Link>
           <Link
             to="/"

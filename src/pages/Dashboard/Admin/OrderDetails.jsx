@@ -39,36 +39,34 @@ const OrderDetails = () => {
   if (isError) return <ErrorPage />;
 
   return (
-    <section className="min-h-screen px-4 py-8">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <section className="min-h-screen px-4 py-6 sm:py-10">
+      <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-semibold text-purple-200">
+            <h1 className="text-2xl sm:text-3xl font-bold text-purple-200">
               Order Details
             </h1>
-            <p className="text-sm text-gray-400">
-              Detailed overview of this order
+            <p className="text-sm text-gray-400 mt-1">
+              Complete overview of the selected order
             </p>
           </div>
+
           <Link
             to="/dashboard/All-orders"
-            className="px-4 py-2 rounded-xl bg-white/10 border border-purple-300/20 text-gray-200 hover:bg-white/20 transition"
+            className="w-fit px-4 py-2 rounded-xl bg-white/10 border border-purple-300/20 text-gray-200 hover:bg-white/20 transition"
           >
-            ← Back
+            ← Back to Orders
           </Link>
         </div>
 
-        {/* Main Card */}
-        <div className="rounded-3xl bg-white/10 backdrop-blur-xl border border-purple-300/20 shadow-2xl overflow-hidden">
-          {/* Top Product Strip */}
-          <div className="flex gap-6 p-6 border-b border-purple-300/20">
-            <div className="w-32 h-24 rounded-2xl overflow-hidden bg-gradient-to-br from-purple-500/20 to-pink-500/10 border border-purple-300/20">
-              {pLoading && (
-                <div className="h-full flex items-center justify-center">
-                  <LoadingSpinner smallHeight />
-                </div>
-              )}
+        {/* Card */}
+        <div className="rounded-3xl bg-white/10 backdrop-blur-xl border border-purple-300/20 shadow-xl overflow-hidden">
+          {/* Product & Status */}
+          <div className="p-6 flex flex-col lg:flex-row gap-6 border-b border-purple-300/20">
+            {/* Image */}
+            <div className="w-full lg:w-48 h-40 rounded-2xl overflow-hidden bg-gradient-to-br from-purple-500/20 to-pink-500/10 border border-purple-300/20 flex items-center justify-center">
+              {pLoading && <LoadingSpinner smallHeight />}
               {!pLoading && product?.image && (
                 <img
                   src={product.image}
@@ -77,23 +75,19 @@ const OrderDetails = () => {
                 />
               )}
               {!pLoading && !product?.image && (
-                <div className="h-full flex items-center justify-center text-xs text-gray-300">
-                  No image
-                </div>
+                <span className="text-sm text-gray-300">No image</span>
               )}
             </div>
 
-            <div className="flex-1">
-              <h2 className="text-2xl font-semibold text-purple-200">
-                {order?.name}
-              </h2>
-              <p className="text-sm text-gray-400 mt-1">
-                Order ID: <span className="font-mono">{order?._id}</span>
-              </p>
+            {/* Info */}
+            <div className="flex-1 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <h2 className="text-xl sm:text-2xl font-semibold text-purple-200">
+                  {order?.name}
+                </h2>
 
-              <div className="mt-3">
                 <span
-                  className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold border
+                  className={`inline-flex w-fit px-3 py-1 rounded-full text-xs font-semibold border
                     ${
                       order?.status === "approved"
                         ? "bg-green-500/20 text-green-300 border-green-400/30"
@@ -106,17 +100,22 @@ const OrderDetails = () => {
                   {order?.status}
                 </span>
               </div>
+
+              <p className="text-sm text-gray-400">
+                Order ID:{" "}
+                <span className="font-mono text-gray-300">{order?._id}</span>
+              </p>
             </div>
           </div>
 
-          {/* Info Grid */}
-          <div className="p-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Details Grid */}
+          <div className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <Info label="Transaction ID" value={order?.transactionId} />
             <Info label="Category" value={order?.category} />
             <Info label="Quantity" value={order?.quantity} />
             <Info label="Price" value={`$${Number(order?.price || 0)}`} />
-            <Info label="Customer" value={order?.customer_name} />
-            <Info label="Email" value={order?.customer_email} />
+            <Info label="Customer Name" value={order?.customer_name} />
+            <Info label="Customer Email" value={order?.customer_email} />
             <Info
               label="Placed At"
               value={
@@ -133,9 +132,11 @@ const OrderDetails = () => {
 };
 
 const Info = ({ label, value }) => (
-  <div className="rounded-2xl border border-purple-300/20 bg-white/10 backdrop-blur-xl p-4">
-    <p className="text-xs text-gray-300">{label}</p>
-    <p className="mt-1 text-lg font-semibold text-purple-200">{value}</p>
+  <div className="rounded-2xl border border-purple-300/20 bg-white/10 backdrop-blur-xl p-4 hover:bg-white/15 transition">
+    <p className="text-xs uppercase tracking-wide text-gray-400">{label}</p>
+    <p className="mt-1 text-base sm:text-lg font-semibold text-purple-200 break-words">
+      {value || "—"}
+    </p>
   </div>
 );
 
