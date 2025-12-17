@@ -28,6 +28,7 @@ import ManagerRoutes from "./ManagerRoutes";
 import AdminRoutes from "./AdminRoutes";
 import BuyerRoutes from "./BuyerRoutes";
 import TrackOrder from "../pages/Dashboard/Customer/TrackOrder";
+import TrackOrders from "../pages/Dashboard/Customer/TrackOrders";
 
 export const router = createBrowserRouter([
   {
@@ -171,10 +172,32 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "track-order/:orderId",
+        element: (
+          <PrivateRoute>
+            <BuyerRoutes>
+              <TrackOrder></TrackOrder>
+            </BuyerRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "track-order",
         element: (
           <PrivateRoute>
-            <TrackOrder></TrackOrder>
+            <BuyerRoutes>
+              <TrackOrder></TrackOrder>
+            </BuyerRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "track-orders",
+        element: (
+          <PrivateRoute>
+            <BuyerRoutes>
+              <TrackOrders></TrackOrders>
+            </BuyerRoutes>
           </PrivateRoute>
         ),
       },

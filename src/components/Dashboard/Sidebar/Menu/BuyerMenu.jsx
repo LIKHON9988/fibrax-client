@@ -1,6 +1,6 @@
 import { BsFingerprint } from "react-icons/bs";
 import { GrUserAdmin } from "react-icons/gr";
-import { IoLocation } from "react-icons/io5";
+import { FaLocationCrosshairs } from "react-icons/fa6";
 import MenuItem from "./MenuItem";
 import { useState } from "react";
 import BecomeManagerModal from "../../../Modal/BecomeManagerModal";
@@ -14,7 +14,11 @@ const BuyerMenu = () => {
   return (
     <>
       <MenuItem icon={BsFingerprint} label="My Orders" address="my-orders" />
-      <MenuItem icon={IoLocation} label="Track Order" address="track-order" />
+      <MenuItem
+        icon={FaLocationCrosshairs}
+        label="Track Order"
+        address="track-orders"
+      />
 
       <div
         onClick={() => setIsOpen(true)}
