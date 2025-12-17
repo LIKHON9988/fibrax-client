@@ -26,6 +26,8 @@ import MyOrders from "../pages/Dashboard/Customer/MyOrders";
 import ApproveRequests from "../pages/Dashboard/Admin/ApproveRequests";
 import ManagerRoutes from "./ManagerRoutes";
 import AdminRoutes from "./AdminRoutes";
+import BuyerRoutes from "./BuyerRoutes";
+import TrackOrder from "../pages/Dashboard/Customer/TrackOrder";
 
 export const router = createBrowserRouter([
   {
@@ -152,7 +154,9 @@ export const router = createBrowserRouter([
         path: "my-orders",
         element: (
           <PrivateRoute>
-            <MyOrders></MyOrders>
+            <BuyerRoutes>
+              <MyOrders></MyOrders>
+            </BuyerRoutes>
           </PrivateRoute>
         ),
       },
@@ -163,6 +167,14 @@ export const router = createBrowserRouter([
             <ManagerRoutes>
               <ManageOrders />
             </ManagerRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "track-order",
+        element: (
+          <PrivateRoute>
+            <TrackOrder></TrackOrder>
           </PrivateRoute>
         ),
       },

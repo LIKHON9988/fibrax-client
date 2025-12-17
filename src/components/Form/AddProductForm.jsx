@@ -1,15 +1,18 @@
 import { useForm } from "react-hook-form";
 import { imageUpload } from "../../utils";
 import useAuth from "../../hooks/useAuth";
-import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import ErrorPage from "../../pages/ErrorPage";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useState } from "react";
 
 const AddProductForm = () => {
   const { user } = useAuth();
+  const axiosSequre = useAxiosSecure();
+  const [previewImages, setPreviewImages] = useState([]);
 
   const {
     isPending,
@@ -17,21 +20,12 @@ const AddProductForm = () => {
     mutateAsync,
     reset: mutationReset,
   } = useMutation({
-    mutationFn: async (payload) =>
-      await axios.post(`${import.meta.env.VITE_API_URL}/products`, payload),
+    mutationFn: async (payload) => await axiosSequre.post(`/products`, payload),
 
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       toast.success("Product added succesfully");
       mutationReset();
     },
-    onError: (error) => {
-      console.log(error);
-    },
-    onMutate: (payload) => {
-      console.log("i will post this data---->", payload);
-    },
-
     retry: 3,
   });
 
@@ -76,14 +70,14 @@ const AddProductForm = () => {
 
       await mutateAsync(productData);
       reset();
+      setPreviewImages([]);
     } catch (err) {
       console.log(err);
     }
   };
 
-  if (isPending) return <LoadingSpinner></LoadingSpinner>;
-
-  if (isError) return <ErrorPage></ErrorPage>;
+  if (isPending) return <LoadingSpinner />;
+  if (isError) return <ErrorPage />;
 
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col items-center py-10 text-white">
@@ -152,7 +146,7 @@ const AddProductForm = () => {
                 placeholder="Write product description..."
                 className="block rounded-md w-full h-32 px-4 py-3 border border-red-300/40 bg-white/20 text-white focus:outline-red-300"
                 {...register("description", { required: true })}
-              ></textarea>
+              />
               {errors.description && (
                 <span className="text-red-500 text-sm">
                   Description is required
@@ -165,56 +159,22 @@ const AddProductForm = () => {
           <div className="space-y-6 flex flex-col">
             {/* Price / Qty / MOQ */}
             <div className="grid grid-cols-3 gap-4">
-              {/* Price */}
-              <div className="space-y-1 text-sm">
-                <label className="block text-red-200 font-medium">Price</label>
-                <input
-                  type="number"
-                  placeholder="Price"
-                  className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
-                  {...register("price", { required: true })}
-                />
-                {errors.price && (
-                  <span className="text-red-500 text-sm">
-                    Price is required
-                  </span>
-                )}
-              </div>
-
-              {/* Quantity */}
-              <div className="space-y-1 text-sm">
-                <label className="block text-red-200 font-medium">
-                  Available Qty
-                </label>
-                <input
-                  type="number"
-                  placeholder="Qty"
-                  className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
-                  {...register("quantity", { required: true })}
-                />
-                {errors.quantity && (
-                  <span className="text-red-500 text-sm">
-                    Quantity is required
-                  </span>
-                )}
-              </div>
-
-              {/* MOQ */}
-              <div className="space-y-1 text-sm">
-                <label className="block text-red-200 font-medium">MOQ</label>
-                <input
-                  type="number"
-                  placeholder="MOQ"
-                  className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
-                  {...register("moq", { required: true })}
-                />
-                {errors.moq && (
-                  <span className="text-red-500 text-sm">MOQ is required</span>
-                )}
-              </div>
+              {["price", "quantity", "moq"].map((field, i) => (
+                <div key={i} className="space-y-1 text-sm">
+                  <label className="block text-red-200 font-medium">
+                    {field.toUpperCase()}
+                  </label>
+                  <input
+                    type="number"
+                    placeholder={field.toUpperCase()}
+                    className="w-full px-4 py-3 border border-red-300/40 rounded-md bg-white/20 text-white focus:outline-red-300"
+                    {...register(field, { required: true })}
+                  />
+                </div>
+              ))}
             </div>
 
-            {/* Payment Option */}
+            {/* Payment */}
             <div className="space-y-1 text-sm">
               <label className="block text-red-200 font-medium">
                 Payment Option
@@ -232,20 +192,29 @@ const AddProductForm = () => {
               </select>
             </div>
 
-            {/* Image Upload */}
+            {/* IMAGE UPLOAD WITH PREVIEW */}
             <div>
               <label className="block mb-2 text-sm text-red-200 font-medium">
                 Upload Product Images
               </label>
 
-              <div className="border-2 border-dashed border-red-400/40 rounded-xl p-5 text-center bg-white/10 backdrop-blur-md">
+              <div className="border-2 border-dashed border-red-400/40 rounded-xl p-5 bg-white/10 backdrop-blur-md">
                 <input
                   type="file"
                   multiple
                   accept="image/*"
                   id="images"
                   className="hidden"
-                  {...register("image", { required: true })}
+                  {...register("image", {
+                    required: true,
+                    onChange: (e) => {
+                      const files = Array.from(e.target.files);
+                      const previews = files.map((file) =>
+                        URL.createObjectURL(file)
+                      );
+                      setPreviewImages(previews);
+                    },
+                  })}
                 />
 
                 <label
@@ -254,7 +223,21 @@ const AddProductForm = () => {
                 >
                   Select Images
                 </label>
+
+                {previewImages.length > 0 && (
+                  <div className="mt-4 grid grid-cols-3 gap-4">
+                    {previewImages.map((img, index) => (
+                      <img
+                        key={index}
+                        src={img}
+                        className="w-full h-24 object-cover rounded-lg border border-red-300/30"
+                        alt="preview"
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
+
               {errors.image && (
                 <span className="text-red-500 text-sm">
                   Product image is required
@@ -262,22 +245,15 @@ const AddProductForm = () => {
               )}
             </div>
 
-            {/* Submit Button */}
+            {/* SUBMIT */}
             <button
               type="submit"
-              className=" mt-4
-                w-full py-3 text-center rounded-xl 
-                bg-gradient-to-r from-purple-600/40 to-pink-600/40
-                border border-purple-300/30 
-                text-white font-semibold backdrop-blur-xl 
-                hover:from-purple-600/60 hover:to-pink-600/60
-                hover:shadow-lg hover:shadow-purple-500/30
-                transition-all duration-300"
+              className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-purple-600/40 to-pink-600/40 border border-purple-300/30 text-white font-semibold backdrop-blur-xl hover:shadow-lg transition-all"
             >
               {isPending ? (
                 <TbFidgetSpinner className="animate-spin m-auto" />
               ) : (
-                "Creat Product"
+                "Create Product"
               )}
             </button>
           </div>

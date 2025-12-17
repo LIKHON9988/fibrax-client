@@ -2,14 +2,13 @@ import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
 
 const Profile = () => {
-  const { user } = useAuth();
-
+  const { user, logOut } = useAuth();
   const [role, isRefreshing] = useRole();
 
   console.log(role, isRefreshing);
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4 py-12 ">
+    <div className="flex justify-center items-center min-h-screen px-4 py-12">
       <div
         className="
           relative w-full max-w-xl
@@ -29,8 +28,7 @@ const Profile = () => {
               alt="profile"
               src={user?.photoURL}
               className="
-                relative
-                h-28 w-28
+                relative h-28 w-28
                 rounded-full
                 border-4 border-purple-300/40
                 object-cover
@@ -85,8 +83,9 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Action */}
-        <div className="mt-8 flex justify-center">
+        {/* Actions */}
+        <div className="mt-8 flex justify-center gap-4">
+          {/* Update */}
           <button
             className="
               px-8 py-2
@@ -103,6 +102,27 @@ const Profile = () => {
             "
           >
             Update Profile
+          </button>
+
+          {/* Logout */}
+          <button
+            onClick={logOut}
+            className="
+              px-8 py-2
+              text-sm font-medium
+              text-red-200
+              rounded-xl
+              bg-red-500/20
+              border border-red-400/30
+              backdrop-blur-md
+              shadow-md
+              hover:bg-red-500/40
+              hover:text-white
+              hover:shadow-lg
+              transition
+            "
+          >
+            Logout
           </button>
         </div>
       </div>

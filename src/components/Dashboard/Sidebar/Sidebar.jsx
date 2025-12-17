@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import useAuth from "../../../hooks/useAuth";
+
 import logo from "../../../assets/images/logo.png";
 import useRole from "../../../hooks/useRole";
 // Icons
-import { GrLogout } from "react-icons/gr";
-import { FcSettings } from "react-icons/fc";
+
+import { CgProfile } from "react-icons/cg";
 import { AiOutlineBars } from "react-icons/ai";
 import { BsGraphUp } from "react-icons/bs";
 
@@ -17,7 +17,6 @@ import BuyerMenu from "./Menu/BuyerMenu";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
 
 const Sidebar = () => {
-  const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
 
   const [role, isRefreshing] = useRole();
@@ -79,19 +78,11 @@ const Sidebar = () => {
             <hr className="border-red-400/40 mb-4" />
 
             <MenuItem
-              icon={FcSettings}
-              label="Profile"
+              icon={CgProfile}
+              label="My Profile"
               address="/dashboard/profile"
               className="hover:bg-red-500/20"
             />
-
-            <button
-              onClick={logOut}
-              className="flex items-center w-full px-4 py-3 mt-3 text-red-200 border border-red-300/40 rounded-lg hover:bg-red-500/20 hover:text-white transition shadow-sm"
-            >
-              <GrLogout className="w-5 h-5" />
-              <span className="mx-3 font-medium">Logout</span>
-            </button>
           </div>
         </div>
       </div>

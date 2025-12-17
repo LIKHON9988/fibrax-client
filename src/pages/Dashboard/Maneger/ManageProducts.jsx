@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import useAuth from "../../../hooks/useAuth";
 import ProductDataRow from "../../../components/Dashboard/TableRows/ProductDataRow";
@@ -9,13 +9,12 @@ import ProductDataRow from "../../../components/Dashboard/TableRows/ProductDataR
 const ManageOrders = () => {
   const [search, setSearch] = useState("");
   const { user } = useAuth();
+  const axiosSequre = useAxiosSecure();
   const queryClient = useQueryClient();
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: async () => {
-      const result = await axios(
-        `${import.meta.env.VITE_API_URL}/manage-products/${user?.email}`
-      );
+      const result = await axiosSequre(`/manage-products/${user?.email}`);
       return result.data;
     },
   });

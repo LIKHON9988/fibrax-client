@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
@@ -8,13 +7,11 @@ import ManagerOrderDataRow from "../../../components/Dashboard/TableRows/Manager
 const ManageOrders = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-
+  const axiosSequre = useAxiosSecure();
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["manage-orders", user?.email],
     queryFn: async () => {
-      const result = await axios(
-        `${import.meta.env.VITE_API_URL}/manage-orders/${user?.email}`
-      );
+      const result = await axiosSequre(`/manage-orders/${user?.email}`);
       return result.data;
     },
   });
