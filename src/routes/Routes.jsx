@@ -22,6 +22,7 @@ import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import PaymentSuccess from "../pages/payment/PaymentSuccess";
 import AdminAllProducts from "../pages/Dashboard/Admin/AdminAllProducts";
 import AllOrders from "../pages/Dashboard/Admin/AllOrders";
+import OrderDetails from "../pages/Dashboard/Admin/OrderDetails";
 import MyOrders from "../pages/Dashboard/Customer/MyOrders";
 import ApproveRequests from "../pages/Dashboard/Admin/ApproveRequests";
 import ManagerRoutes from "./ManagerRoutes";
@@ -147,6 +148,16 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <AdminRoutes>
               <AllOrders />
+            </AdminRoutes>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "orders/:orderId",
+        element: (
+          <PrivateRoute>
+            <AdminRoutes>
+              <OrderDetails />
             </AdminRoutes>
           </PrivateRoute>
         ),
