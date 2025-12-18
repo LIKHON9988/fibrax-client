@@ -34,7 +34,7 @@ const Profile = () => {
       await updateUserProfile(name, photoURL);
       await axiosSecure.patch("/users/profile", { name, image: photoURL });
 
-      setUser(prev => ({
+      setUser((prev) => ({
         ...prev,
         displayName: name,
         photoURL,
@@ -44,14 +44,16 @@ const Profile = () => {
       closeModal();
     } catch (err) {
       console.log(err);
-      toast.error(err?.response?.data?.message || err?.message || "Update failed");
+      toast.error(
+        err?.response?.data?.message || err?.message || "Update failed"
+      );
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4 py-12">
+    <div className="flex justify-center items-center min-h-screen px-4 ">
       <div
         className="
           relative w-full max-w-xl
@@ -172,17 +174,22 @@ const Profile = () => {
       </div>
 
       <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" aria-hidden="true" />
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+          aria-hidden="true"
+        />
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <DialogPanel className="w-full max-w-md rounded-2xl bg-white/10 backdrop-blur-2xl border border-purple-300/20 p-6 text-white">
-            <DialogTitle className="text-lg font-semibold">Update Profile</DialogTitle>
+            <DialogTitle className="text-lg font-semibold">
+              Update Profile
+            </DialogTitle>
             <div className="mt-4 space-y-4">
               <div>
                 <label className="text-sm text-purple-200">Name</label>
                 <input
                   type="text"
                   value={name}
-                  onChange={e => setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                   className="mt-1 w-full rounded-xl bg-white/10 border border-white/20 px-3 py-2 outline-none"
                   placeholder="Enter your name"
                 />
@@ -192,7 +199,7 @@ const Profile = () => {
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={e => setFile(e.target.files?.[0] || null)}
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
                   className="mt-1 w-full rounded-xl bg-white/10 border border-white/20 px-3 py-2 outline-none file:mr-3 file:rounded-lg file:border file:border-white/20 file:bg-white/20 file:px-3 file:py-1"
                 />
               </div>

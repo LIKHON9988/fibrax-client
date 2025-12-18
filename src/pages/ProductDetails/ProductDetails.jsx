@@ -39,7 +39,7 @@ const ProductDetailsCard = () => {
 
   return (
     <Container>
-      <div className="flex justify-center py-12">
+      <div className="flex justify-center pt-24 pb-12">
         <div className="w-full max-w-md bg-white/5 backdrop-blur-3xl border border-purple-300/20 rounded-3xl shadow-2xl overflow-hidden hover:shadow-purple-500/30 transition-all duration-300">
           {/* PRODUCT IMAGE */}
           <div className="relative w-full h-64 md:h-72">

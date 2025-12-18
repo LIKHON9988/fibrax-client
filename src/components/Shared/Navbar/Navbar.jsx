@@ -17,7 +17,7 @@ const Navbar = () => {
       backdrop-blur-xl border-b border-purple-400/30 shadow-xl"
     >
       <Container>
-        <div className="flex items-center justify-between py-3 px-2 md:px-4">
+        <div className="flex items-center justify-between  px-2 md:px-4">
           {/* LOGO BOX WITH GRADIENT + GLOW */}
           <Link to="/" className="flex items-center gap-2 group">
             <div>
@@ -109,7 +109,7 @@ const Navbar = () => {
 
           {/* MOBILE MENU BUTTON */}
           <div
-            className="md:hidden px-4 py-2 mr-2 border border-red-400/40 rounded-full cursor-pointer 
+            className="md:hidden px-4 py-1 mr-2 border border-red-400/40 rounded-full cursor-pointer 
             flex items-center gap-3 bg-black/30 backdrop-blur-xl shadow-md hover:shadow-red-400/40 
             transition"
             onClick={() => setIsOpen(!isOpen)}
@@ -192,7 +192,10 @@ const Navbar = () => {
                   Dashboard
                 </NavLink>
 
-                <div className="flex items-center gap-3 mt-2">
+                <NavLink
+                  to={"/profile"}
+                  className="flex items-center gap-3 mt-2"
+                >
                   <img
                     src={user.photoURL || avatarImg}
                     alt="avatar"
@@ -201,7 +204,7 @@ const Navbar = () => {
                   <div className="font-semibold text-white">
                     {user.displayName || "User"}
                   </div>
-                </div>
+                </NavLink>
 
                 <div
                   onClick={() => {
