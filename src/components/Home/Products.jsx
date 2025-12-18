@@ -4,6 +4,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../Shared/LoadingSpinner";
+import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 import { EffectCoverflow, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -25,9 +27,15 @@ const Products = () => {
   return (
     <Container>
       <div className="mt-16 px-2 sm:px-0">
-        <h1 className="my-3 text-3xl sm:text-4xl font-extrabold tracking-wide text-red-200 drop-shadow-md text-center mb-8">
-          My Products
-        </h1>
+        <motion.h1
+          className="text-2xl md:text-3xl font-extrabold tracking-tight text-purple-200 text-center mb-8"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          Our Products
+        </motion.h1>
 
         <Swiper
           effect="coverflow"
@@ -63,10 +71,32 @@ const Products = () => {
         >
           {products.map((product) => (
             <SwiperSlide key={product._id} className="pb-10">
-              <Card product={product} />
+              <motion.div
+                initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.99 }}
+              >
+                <Card product={product} />
+              </motion.div>
             </SwiperSlide>
           ))}
         </Swiper>
+
+        <div className="text-center mt-8">
+          <Link
+            to="/allProducts"
+            className="inline-block px-6 py-3 rounded-full  text-center 
+              bg-gradient-to-r from-purple-600/40 to-pink-600/40
+              border border-purple-300/30
+              text-white text-sm font-semibold
+              hover:from-purple-600/60 hover:to-pink-600/60
+              transition-all"
+          >
+            View All Products
+          </Link>
+        </div>
       </div>
     </Container>
   );

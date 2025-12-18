@@ -63,7 +63,7 @@ const AllProduct = () => {
   return (
     <Container>
       <div className="py-6 md:py-10 space-y-8">
-        <div className="text-center text-white">
+        <div className="text-center text-white pt-28">
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
             All Products
           </h1>

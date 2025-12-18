@@ -64,7 +64,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="flex flex-col max-w-md w-full p-8 rounded-2xl shadow-xl bg-white/10 backdrop-blur-xl border border-red-400/40 text-white">
+      <div className="flex flex-col max-w-md w-11/12 md:w-full p-8 rounded-2xl shadow-xl bg-white/10 backdrop-blur-xl border border-red-400/40 text-white">
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-extrabold tracking-wide text-red-200 drop-shadow-lg">

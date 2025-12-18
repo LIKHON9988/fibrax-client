@@ -14,7 +14,7 @@ const Navbar = () => {
     <div
       className="fixed top-0 w-full z-30 
       bg-gradient-to-b from-black/60 via-black/40 to-transparent 
-      backdrop-blur-xl border-b border-red-400/30 shadow-xl"
+      backdrop-blur-xl border-b border-purple-400/30 shadow-xl"
     >
       <Container>
         <div className="flex items-center justify-between py-3 px-2 md:px-4">

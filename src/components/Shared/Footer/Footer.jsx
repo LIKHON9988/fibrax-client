@@ -1,13 +1,14 @@
 import Container from "../Container";
+import { FiFacebook, FiTwitter, FiLinkedin } from "react-icons/fi";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-[#7a1cac] via-[#53027a] via-[#2a0140] to-[#000008] text-gray-300 px-6 py-12">
+    <footer className="border-t border-purple-800 text-gray-300 px-6 py-12">
       <Container>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold text-white">PlantNet Inc.</h3>
+            <h3 className="text-2xl font-bold text-white">Fibrax</h3>
             <p className="mt-3 text-sm text-gray-400">
               Building intelligent, sustainable solutions for a greener future.
             </p>
@@ -35,15 +36,24 @@ const Footer = () => {
           {/* Socials */}
           <div>
             <h4 className="text-lg font-semibold text-white mb-3">Follow Us</h4>
-            <div className="flex space-x-4">
-              <a href="#" className="hover:text-purple-400 transition-colors">
-                Facebook
+            <div className="flex space-x-4 text-gray-300">
+              <a
+                href="https://www.facebook.com/"
+                className="hover:text-purple-400 transition-colors flex items-center gap-1"
+              >
+                <FiFacebook size={18} /> Facebook
               </a>
-              <a href="#" className="hover:text-purple-400 transition-colors">
-                Twitter
+              <a
+                href="https://x.com/"
+                className="hover:text-purple-400 transition-colors flex items-center gap-1"
+              >
+                <FiTwitter size={18} /> Twitter
               </a>
-              <a href="#" className="hover:text-purple-400 transition-colors">
-                LinkedIn
+              <a
+                href="https://www.linkedin.com/"
+                className="hover:text-purple-400 transition-colors flex items-center gap-1"
+              >
+                <FiLinkedin size={18} /> LinkedIn
               </a>
             </div>
           </div>
@@ -51,7 +61,7 @@ const Footer = () => {
 
         {/* Divider & Bottom Text */}
         <div className="border-t border-purple-800 mt-10 pt-6 text-center text-sm text-gray-400">
-          © 2025–2026 PlantNet Inc. All rights reserved.
+          © 2025–2026 FibraX All rights reserved.
         </div>
       </Container>
     </footer>

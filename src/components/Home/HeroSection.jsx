@@ -1,117 +1,65 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectCoverflow } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/effect-coverflow";
+import React from "react";
+import hero from "../../assets/images/hero.jpg";
 import { Link } from "react-router";
-
-const slides = [
-  {
-    image:
-      "https://images.stockcake.com/public/9/d/5/9d5dfedc-acaf-4c5a-9ffb-92caaf2a1302_large/neon-fashion-display-stockcake.jpg",
-    title: "Crafted Apparel",
-    subtitle: "Refined materials with timeless character",
-    cta: "Shop Now",
-  },
-  {
-    image:
-      "https://png.pngtree.com/background/20240112/original/pngtree-fashion-boutique-featuring-clothing-shoes-and-personal-accessories-with-vibrant-neon-picture-image_7236479.jpg",
-    title: "Effortless Selection",
-    subtitle: "Curated pieces for modern lifestyles",
-    cta: "Shop Now",
-  },
-  {
-    image:
-      "https://img.freepik.com/premium-photo/high-end-fashion-boutique-latest-trends-highlighted-sophisticated-glow-neon-spotlights_308548-2918.jpg",
-    title: "Designed For You",
-    subtitle: "Modern fits with elevated details",
-    cta: "Shop Now",
-  },
-];
+import { motion } from "framer-motion";
+import Container from "../Shared/Container";
 
 const HeroSection = () => {
   return (
-    <section className="relative h-[32vh] md:h-[40vh] text-white overflow-hidden">
-      {/* Accent glows */}
-      <div className="absolute -top-24 -left-24 w-80 h-80 bg-purple-600/25 blur-3xl z-0" />
-      <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-pink-600/25 blur-3xl z-0" />
-
-      <Swiper
-        modules={[Autoplay, Pagination, EffectCoverflow]}
-        effect="coverflow"
-        coverflowEffect={{
-          rotate: 5,
-          depth: 90,
-          modifier: 1,
-          slideShadows: false,
-        }}
-        slidesPerView={1}
-        loop
-        autoplay={{ delay: 4500, disableOnInteraction: false }}
-        pagination={{ clickable: true }}
-        className="h-full"
+    <section className="relative h-[40vh] md:h-[60vh] w-full text-white overflow-hidden">
+      {/* Background Image */}
+      <div
+        className="absolute top-0 left-0 w-full h-full bg-cover bg-center z-0"
+        style={{ backgroundImage: `url(${hero})` }}
       >
-        {slides.map((s, i) => (
-          <SwiperSlide key={i}>
-            <div
-              className="h-full w-full bg-cover bg-center"
-              style={{ backgroundImage: `url(${s.image})` }}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-black/60"></div>
+      </div>
+
+      {/* Decorative Glows */}
+      <div className="absolute -top-12 -left-12 w-40 h-40 md:w-72 md:h-72 bg-purple-600/30 blur-3xl z-10 animate-pulse-slow"></div>
+      <div className="absolute -bottom-12 -right-12 w-40 h-40 md:w-72 md:h-72 bg-pink-500/30 blur-3xl z-10 animate-pulse-slow"></div>
+
+      {/* Content slightly right from left edge */}
+      <Container>
+        {" "}
+        <div className="relative pt-36 z-20 flex flex-col justify-center h-full  md:px-16 max-w-sm md:max-w-xl">
+          {/* Heading */}
+          <motion.h1
+            className="text-xl md:text-4xl font-extrabold tracking-tight"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, type: "spring", stiffness: 60 }}
+          >
+            Discover Your Unique Style
+          </motion.h1>
+
+          {/* Subheading */}
+          <motion.p
+            className="mt-1 md:mt-4 text-xs md:text-lg text-gray-200 leading-relaxed"
+            initial={{ opacity: 0, x: -60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2, type: "spring", stiffness: 50 }}
+          >
+            Explore our curated collection of fashion-forward pieces designed to
+            elevate your everyday look.
+          </motion.p>
+
+          {/* CTA Button */}
+          <motion.div
+            className="mt-2 md:mt-6"
+            initial={{ opacity: 0, x: -70 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.4, type: "spring", stiffness: 40 }}
+          >
+            <Link
+              to="/allProducts"
+              className="px-3 py-2 md:px-6 md:py-3 rounded-3xl bg-white/20 backdrop-blur-sm border border-white/30 text-xs md:text-white font-semibold hover:bg-white/30 transition-all"
             >
-              <div className="relative h-full flex items-center z-10">
-                <div className="max-w-7xl mx-auto px-4 md:px-28 w-full">
-                  {/* Glass Content Card */}
-                  <div
-                    className="
-                      max-w-[90%] md:max-w-xl
-                      rounded-2xl md:rounded-3xl
-                      bg-black/55 md:bg-white/10
-                      backdrop-blur-none md:backdrop-blur-sm
-                      border border-white/25
-                      shadow-lg md:shadow-xl
-                      p-4 md:p-8
-                    "
-                  >
-                    <h1 className="text-xl md:text-4xl font-extrabold text-white">
-                      {s.title}
-                    </h1>
-
-                    <p className="mt-2 md:mt-3 text-xs md:text-base text-gray-200 leading-relaxed">
-                      {s.subtitle}
-                    </p>
-
-                    {/* Button */}
-                    <Link
-                      to="/allProducts"
-                      className="
-                        inline-flex items-center gap-2 mt-4 md:mt-5
-                        px-4 py-2 md:px-6 md:py-3
-                        rounded-full
-                        bg-white/30 md:bg-white/20
-                        backdrop-blur-none md:backdrop-blur-sm
-                        border border-white/30
-                        text-xs md:text-sm font-semibold text-white
-                        shadow
-                        hover:bg-white/40 md:hover:bg-white/30
-                        transition-all
-                      "
-                    >
-                      {s.cta}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-3.5 h-3.5 md:w-4 md:h-4"
-                      >
-                        <path d="M5.25 12a.75.75 0 01.75-.75h10.19l-3.72-3.72a.75.75 0 111.06-1.06l5 5a.75.75 0 010 1.06l-5 5a.75.75 0 11-1.06-1.06l3.72-3.72H6a.75.75 0 01-.75-.75z" />
-                      </svg>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+              Shop the Collection
+            </Link>
+          </motion.div>
+        </div>
+      </Container>
     </section>
   );
 };
