@@ -7,7 +7,7 @@ const ErrorPage = () => {
   return (
     <section
       className="min-h-screen flex items-center justify-center
-      bg-gradient-to-br from-indigo-900 via-purple-900 to-black"
+      bg-gradient-to-br "
     >
       <div className="container px-6 py-12 mx-auto">
         <div
