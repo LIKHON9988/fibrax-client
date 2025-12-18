@@ -24,18 +24,12 @@ const AllProduct = () => {
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <ErrorPage />;
 
-  // -------------------------------
-  // Build category list (no useMemo)
-  // -------------------------------
   const categoriesSet = new Set();
   (data || []).forEach((p) => {
     if (p?.category) categoriesSet.add(p.category);
   });
   const categories = ["All", ...Array.from(categoriesSet)];
 
-  // ------------------------------------
-  // Filtering + Sorting (no useMemo)
-  // ------------------------------------
   let products = Array.isArray(data) ? [...data] : [];
 
   // Filter by category
@@ -121,7 +115,6 @@ const AllProduct = () => {
               key={p?._id ?? p?.id ?? `${p?.name}-${p?.price}`}
               className="flex items-center gap-6 p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg hover:shadow-purple-400/30 transition text-white"
             >
-              {/* Bigger Image */}
               <div className="w-40 h-40 rounded-xl overflow-hidden flex-shrink-0">
                 <img
                   src={p?.image}

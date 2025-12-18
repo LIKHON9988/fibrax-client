@@ -24,18 +24,8 @@ const SignUp = () => {
     const { name, image, email, password, role } = data;
 
     const imageData = image?.[0];
-    // const formData = new FormData();
-
-    // formData.append("image", imageData);
 
     try {
-      // const { data } = await axios.post(
-      //   `https://api.imgbb.com/1/upload?key=${
-      //     import.meta.env.VITE_IMGBB_API_KEY
-      //   }`,
-      //   formData
-      // );
-
       const imageURL = await imageUpload(imageData);
 
       const result = await createUser(email, password);
