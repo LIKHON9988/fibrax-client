@@ -7,7 +7,7 @@ import useRole from "../../../hooks/useRole";
 
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineBars } from "react-icons/ai";
-import { BsGraphUp } from "react-icons/bs";
+import { MdDashboard } from "react-icons/md";
 
 // User Menu
 import MenuItem from "./Menu/MenuItem";
@@ -60,8 +60,8 @@ const Sidebar = () => {
             <nav className="space-y-1">
               {/* Common Menu */}
               <MenuItem
-                icon={BsGraphUp}
-                label="Statistics"
+                icon={MdDashboard}
+                label="Dashboard"
                 address="/dashboard"
                 className="hover:bg-red-500/20"
               />

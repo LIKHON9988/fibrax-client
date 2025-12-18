@@ -1,5 +1,6 @@
 import { FaUserClock, FaUserCog } from "react-icons/fa";
-import { BsFillHouseDoorFill, BsFingerprint } from "react-icons/bs";
+import { BsFillHouseDoorFill } from "react-icons/bs";
+import { TiThSmall } from "react-icons/ti";
 import MenuItem from "./MenuItem";
 
 const AdminMenu = () => {
@@ -16,7 +17,7 @@ const AdminMenu = () => {
         label="All Products"
         address="all-products"
       />
-      <MenuItem icon={BsFingerprint} label="All Orders" address="All-orders" />
+      <MenuItem icon={TiThSmall} label="All Orders" address="All-orders" />
     </>
   );
 };

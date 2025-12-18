@@ -1,16 +1,20 @@
+import { Link } from "react-router";
 import Container from "../Container";
-import { FiFacebook, FiTwitter, FiLinkedin } from "react-icons/fi";
+import { FiFacebook, FiLinkedin } from "react-icons/fi";
+import { FaGithub } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-purple-800 text-gray-300 px-6 py-12">
+    <footer className="border-t border-purple-800 bg-gradient-to-br from-[#380453] via-[#320149] via-[#2a0140] to-[#000008] text-gray-300 px-6 py-12">
       <Container>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div>
             <h3 className="text-2xl font-bold text-white">Fibrax</h3>
             <p className="mt-3 text-sm text-gray-400">
-              Building intelligent, sustainable solutions for a greener future.
+              Fibrex is a modern garments order and production tracking system
+              designed to streamline workflows, enhance transparency, and ensure
+              timely delivery from order to shipment.
             </p>
           </div>
 
@@ -19,18 +23,21 @@ const Footer = () => {
             <h4 className="text-lg font-semibold text-white mb-1">
               Quick Links
             </h4>
-            <a href="#" className="hover:text-purple-400 transition-colors">
+            <Link to={"/"} className="hover:text-purple-400 transition-colors">
               Home
-            </a>
-            <a href="#" className="hover:text-purple-400 transition-colors">
+            </Link>
+            <Link
+              to={"/aboutUs"}
+              className="hover:text-purple-400 transition-colors"
+            >
               About Us
-            </a>
-            <a href="#" className="hover:text-purple-400 transition-colors">
-              Services
-            </a>
-            <a href="#" className="hover:text-purple-400 transition-colors">
+            </Link>
+            <Link
+              to={"/contact"}
+              className="hover:text-purple-400 transition-colors"
+            >
               Contact
-            </a>
+            </Link>
           </div>
 
           {/* Socials */}
@@ -44,13 +51,13 @@ const Footer = () => {
                 <FiFacebook size={18} /> Facebook
               </a>
               <a
-                href="https://x.com/"
+                href="https://github.com/LIKHON9988"
                 className="hover:text-purple-400 transition-colors flex items-center gap-1"
               >
-                <FiTwitter size={18} /> Twitter
+                <FaGithub size={18} /> GitHub
               </a>
               <a
-                href="https://www.linkedin.com/"
+                href="https://linkedin.com/in/sudiptta-datta"
                 className="hover:text-purple-400 transition-colors flex items-center gap-1"
               >
                 <FiLinkedin size={18} /> LinkedIn

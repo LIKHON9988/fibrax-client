@@ -1,4 +1,4 @@
-import { BsFillHouseAddFill } from "react-icons/bs";
+import { MdAddComment } from "react-icons/md";
 import { MdHomeWork, MdOutlineManageHistory } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
@@ -6,11 +6,7 @@ import MenuItem from "./MenuItem";
 const ManagerMenu = () => {
   return (
     <>
-      <MenuItem
-        icon={BsFillHouseAddFill}
-        label="Add Product"
-        address="add-product"
-      />
+      <MenuItem icon={MdAddComment} label="Add Product" address="add-product" />
       <MenuItem
         icon={MdHomeWork}
         label="Manage Products"

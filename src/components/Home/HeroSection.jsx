@@ -1,5 +1,5 @@
 import React from "react";
-import hero from "../../assets/images/hero.jpg";
+import hero from "../../assets/images/hero4.jpg";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import Container from "../Shared/Container";
@@ -30,7 +30,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, type: "spring", stiffness: 60 }}
           >
-            Discover Your Unique Style
+            Powering Smarter Garment Production
           </motion.h1>
 
           {/* Subheading */}
@@ -40,8 +40,8 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2, type: "spring", stiffness: 50 }}
           >
-            Explore our curated collection of fashion-forward pieces designed to
-            elevate your everyday look.
+            Simplify production management and gain real-time visibility from
+            order placement to final delivery.
           </motion.p>
 
           {/* CTA Button */}
